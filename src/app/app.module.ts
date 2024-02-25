@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
-import { DiscussionsComponent } from './discussions/discussions.component';
+import { DiscussionListComponent } from './discussions/discussion-list/discussion-list.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { HomeComponent } from './home/home.component';
 import { ResourcesComponent } from './resources/resources.component';
@@ -20,12 +20,14 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { CategoryComponent } from './category/category.component';
+import { DiscussionsComponent } from './discussions/discussions.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     DiscussionsComponent,
+    DiscussionListComponent,
     ArticlesComponent,
     HomeComponent,
     ResourcesComponent,

@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { DiscussionService } from './discussion.service';
+import { Component } from '@angular/core';
 import { Discussion } from '../shared/models/discussion.model';
+import { DiscussionService } from './discussions.service';
 import { CategoryService } from '../shared/category.service';
 
 @Component({
@@ -12,23 +12,14 @@ export class DiscussionsComponent {
   discussions: Discussion[] = [];
   category: string = 'Stress';
 
-  constructor(private discussionService: DiscussionService, private categoryService: CategoryService) { }
+  constructor(private discussionService: DiscussionService) { }
 
   ngOnInit(): void {
-    this.categoryService.categorySelected.subscribe((category: string) => {
-      this.category = category;
-      this.getDiscussionsByCategory();
+    this.discussionService.getDiscussions()
+    .subscribe(discussions => {      
+      console.log(discussions);
+      
+      this.discussions = discussions;
     });
-  }
-
-  getDiscussionsByCategory() {
-    this.discussionService.getDiscussionsByCategory(this.category)
-      .subscribe(discussions => {
-        console.log('What is coming');
-        
-        console.log(discussions);
-        
-        this.discussions = discussions;
-      });
   }
 }
