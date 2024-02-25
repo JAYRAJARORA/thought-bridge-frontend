@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Discussions by Category</h2>
+        <div class="card-group">
+          <div class="card" *ngFor="let discussion of discussions">
+            <div class="card-body">
+              <h5 class="card-title">{{ discussion.title }}</h5>
+              <p class="card-text">{{ discussion.content }}</p>
+              <p class="card-text"><small class="text-muted">Author: {{ discussion.author.username }}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

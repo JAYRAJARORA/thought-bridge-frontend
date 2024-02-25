@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row justify-content-center mt-5"> <!-- Center the form vertically -->
+      <div class="col-md-6">
+        <form class="mt-4" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="username" name="username" class="form-control" [(ngModel)]="user.username" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" [(ngModel)]="user.email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" [(ngModel)]="user.password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>&nbsp; Already have an account? &nbsp;<a routerLink="/login" style="cursor: pointer;">Login</a>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  
