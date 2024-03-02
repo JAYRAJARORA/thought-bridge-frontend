@@ -4,11 +4,11 @@ import { Discussion } from '../../shared/models/discussion.model';
 import { CategoryService } from '../../shared/category.service';
 
 @Component({
-  selector: 'app-discussion-list',
-  templateUrl: './discussion-list.component.html',
-  styleUrl: './discussion-list.component.css'
+  selector: 'app-discussion-list-trending',
+  templateUrl: './discussion-list-trending.component.html',
+  styleUrl: './discussion-list-trending.component.css'
 })
-export class DiscussionListComponent {
+export class DiscussionListTrendingComponent {
   discussions: Discussion[] = [];
   category: string = 'Stress';
 

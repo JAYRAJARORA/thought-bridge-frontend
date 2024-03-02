@@ -10,17 +10,18 @@ import { CategoryService } from '../shared/category.service';
 export class CategoryComponent implements OnInit {
   categories: Category[];
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
-    this.categoryService.getAllCategories().subscribe(
-      categories => {
+    this.categoryService.getAllCategories().subscribe({
+      next: categories => {
         this.categories = categories;
       },
-      error => {
+      error: (error) => {
         console.log('Error fetching categories:', error);
       }
-    );
+    });
+
   }
 
   onCategoryClick(category: Category): void {

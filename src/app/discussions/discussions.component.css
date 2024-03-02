@@ -1,0 +1,17 @@
+.custom-dialog-container {
+    overflow: hidden !important; /* Hide overflow to remove extra border */
+  }
+  
+  .custom-dialog-content {
+    padding: 0 !important; /* Remove padding to fit content properly */
+  }
+
+  .success-snackbar {
+    background-color: green;
+    color: white;
+  }
+  
+  .error-snackbar {
+    background-color: red;
+    color: white;
+  }

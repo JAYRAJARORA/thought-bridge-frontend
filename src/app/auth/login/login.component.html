@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row justify-content-center mt-5">
       <div class="col-md-6">
-        <form class="mt-4" (ngSubmit)="login()">
+        <form class="mt-4" #loginForm="ngForm" (ngSubmit)="login()">
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" id="username" name="username" class="form-control" [(ngModel)]="user.username" required>
@@ -11,7 +11,7 @@
             <input type="password" id="password" name="password" class="form-control" [(ngModel)]="user.password" required>
           </div>
           <br>
-          <button type="submit" class="btn btn-primary">Login</button>&nbsp;
+          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>&nbsp;
           New user? &nbsp;<a routerLink="/register" style="cursor: pointer;">Register</a>
         </form>
       </div>

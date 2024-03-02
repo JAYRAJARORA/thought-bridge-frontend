@@ -5,21 +5,27 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li routerLinkActive="active"><a routerLink="/discussions">Discsussions</a></li>
-                <li routerLinkActive="active"><a routerLink="/articles">Articles</a></li>
-                <li routerLinkActive="active"><a routerLink="/find-therapists">Find a Therapist</a></li>
-                <li routerLinkActive="active"><a routerLink="/resources">Need Help?</a></li>
+                <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/discussions">Discsussions</a></li>
+                <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/articles">Articles</a></li>
+                <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/find-therapists">Find a Therapist</a></li>
+                <li *ngIf="!isAuthenticated" routerLinkActive="active"><a routerLink="/resources">Need Help?</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li routerLinkActive="active"><a routerLink="/login">Login</a></li>
-                <li routerLinkActive="active"><a routerLink="/register">Register</a></li>
-                <li routerLinkActive="active"><a routerLink="/contact">Contact Us</a></li>
-                <li class="dropdown" appDropdown>
-                    <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage Profile<span class="caret"></span></a>
-                    <ul class="dropdown-menu"> 
+                
+                <li routerLinkActive="active" *ngIf="!isAuthenticated">
+                    <a style="cursor: pointer;" routerLink="/login">Login</a>
+                </li>
+                <li routerLinkActive="active" *ngIf="!isAuthenticated">
+                    <a style="cursor: pointer;" routerLink="/register">Register</a>
+                </li>
+                <li *ngIf="!isAuthenticated" routerLinkActive="active"><a style="cursor: pointer;" routerLink="/contact">Contact Us</a></li>
+                <li class="dropdown" appDropdown *ngIf="isAuthenticated">
+                    <a style="cursor: pointer;" class="dropdown-toggle" role="button">{{ username }}<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
                         <li><a style="cursor: pointer;">View Profile</a></li>
                         <li><a style="cursor: pointer;">Update Preferences</a></li>
-                        <li><a style="cursor: pointer;">Logout</a></li>
+                        <li *ngIf="isAuthenticated"><a style="cursor: pointer;" (click)="onLogout()">Logout</a></li>
                     </ul>
                 </li>
             </ul>

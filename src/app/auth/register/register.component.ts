@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../shared/models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  user: User = new User;
+  user: User = { username: '', password: '', email: '' };
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
 
@@ -21,20 +22,30 @@ export class RegisterComponent {
   }
 
 
-  onSubmit() {
-    this.authService.register(this.user).subscribe(
-      response => {
+  onSubmit(form: NgForm) {
+    if(!form.valid) {
+      return;
+    }
+    this.user.username = form.value.username;
+    this.user.email = form.value.email;
+    this.user.password = form.value.password;
+
+    this.authService.register(this.user).subscribe({
+      next: (response) => {
         console.log('Signup successful!', response);
-        this.openSnackBar("User Created Successfully", 'Close');
-        // Reset form after successful signup
-        this.user = new User();
+        this.openSnackBar(response.body, 'Close');
       },
-      error => {
-        console.error('Signup failed!', error);
-        this.openSnackBar("Error in creating User", 'Close');
-        console.log(error);
+      error: (errorResponse) => {
+        console.error('Signup failed!', errorResponse);
+        if(errorResponse.status == '409') {
+          this.openSnackBar(errorResponse.error, 'Close');
+        } else {
+          this.openSnackBar("Error in creating User", 'Close');
+        }
       }
-    );
+    });
+
+    form.reset();
   }
 
   goToLogin() {

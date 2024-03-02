@@ -9,17 +9,21 @@ import { ErrorPageComponent } from "./error-page/error-page.component";
 import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { DiscussionsComponent } from "./discussions/discussions.component";
+import { DiscussionAddComponent } from "./discussions/discussion-add/discussion-add.component";
+import { AuthGuard } from "./auth/auth.guard";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'discussions', component: DiscussionsComponent },
-    { path: 'articles', component: ArticlesComponent },
-    { path: 'find-therapists', component: FindTherapistComponent },
+    { path: 'discussions', component: DiscussionsComponent, canActivate:[AuthGuard], children: [
+        { path: 'new', component: DiscussionAddComponent }
+    ] },
+    { path: 'articles', component: ArticlesComponent, canActivate:[AuthGuard] },
+    { path: 'find-therapists', component: FindTherapistComponent, canActivate:[AuthGuard] },
     { path: 'resources', component: ResourcesComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'contact', component: ContactComponent },
-    { path: 'error-page', component: ErrorPageComponent },
+    { path: 'error-page', component: ErrorPageComponent, canActivate:[AuthGuard] },
     { path: '**', redirectTo: 'error-page'}
 ];
 
