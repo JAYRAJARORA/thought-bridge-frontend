@@ -1,13 +1,16 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Discussion } from "../shared/models/discussion.model";
-import { Observable } from "rxjs";
+import { Observable, of, switchMap, tap } from "rxjs";
 import { environment } from "../../environments/environment";
+import { Comment } from "../shared/models/comment.model";
 
 @Injectable({ providedIn: "root" })
 export class DiscussionService {
   private baseUrl: string;
-  private discussions: Discussion[] = [];
+  discussionsChanged = new EventEmitter<Discussion[]>();
+  
+  discussions : Discussion[] = [];
 
   constructor(private http: HttpClient) {
     this.baseUrl = environment.domain;
@@ -18,22 +21,33 @@ export class DiscussionService {
   }
 
   getDiscussions(): Observable<Discussion[]> {
-    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions`);
+    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions`).pipe(tap((discussions: Discussion[]) => {
+      this.discussions = discussions;
+      this.discussionsChanged.emit(discussions);
+    }));
   }
 
   createDiscussion(discussion): Observable<any> {
-    return this.http.post(`${this.baseUrl}/discussions`, discussion);
+    return this.http.post<Discussion>(`${this.baseUrl}/discussions`, discussion);
   }
 
-  setDiscussions(discussions: Discussion[]): void {
-    this.discussions = discussions;
-  }
-
-  getStoredDiscussions(): Discussion[] {
-    return this.discussions;
+  addCommentToDiscussion(id: string, comment: Comment): Observable<Discussion> {
+    return this.http.post<Discussion>(`${this.baseUrl}/discussions/${id}/comments`, comment);
   }
 
   addDiscussion(discussion: Discussion): void {
     this.discussions.push(discussion);
+    this.discussionsChanged.emit(this.discussions.slice());
+  }
+
+  findDiscussionById(id: string): Observable<Discussion> {
+    if (this.discussions.length === 0) {
+      return this.getDiscussions().pipe(
+        switchMap(() => this.findDiscussionById(id))
+      );
+    }
+
+    const discussion = this.discussions.find(d => d.id === id);
+    return of(discussion);
   }
 }

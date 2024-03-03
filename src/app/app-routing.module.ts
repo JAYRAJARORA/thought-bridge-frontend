@@ -11,11 +11,15 @@ import { RegisterComponent } from "./auth/register/register.component";
 import { DiscussionsComponent } from "./discussions/discussions.component";
 import { DiscussionAddComponent } from "./discussions/discussion-add/discussion-add.component";
 import { AuthGuard } from "./auth/auth.guard";
+import { DiscussionDetailComponent } from "./discussions/discussion-detail/discussion-detail.component";
+import { DiscussionStartComponent } from "./discussions/discussion-start/discussion-start.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'discussions', component: DiscussionsComponent, canActivate:[AuthGuard], children: [
-        { path: 'new', component: DiscussionAddComponent }
+        { path: '', component: DiscussionStartComponent },
+        { path: 'new', component: DiscussionAddComponent },
+        { path: ':id', component: DiscussionDetailComponent }
     ] },
     { path: 'articles', component: ArticlesComponent, canActivate:[AuthGuard] },
     { path: 'find-therapists', component: FindTherapistComponent, canActivate:[AuthGuard] },

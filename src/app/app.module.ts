@@ -24,6 +24,9 @@ import { DiscussionsComponent } from './discussions/discussions.component';
 import { DiscussionAddComponent } from './discussions/discussion-add/discussion-add.component';
 import { DiscussionsListComponent } from './discussions/discussions-list/discussions-list.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { DiscussionItemComponent } from './discussions/discussion-item/discussion-item.component';
+import { DiscussionDetailComponent } from './discussions/discussion-detail/discussion-detail.component';
+import { DiscussionStartComponent } from './discussions/discussion-start/discussion-start.component';
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import { DropdownDirective } from './shared/dropdown.directive';
     CategoryComponent,
     DiscussionAddComponent,
     DiscussionsListComponent,
-    DropdownDirective
+    DropdownDirective,
+    DiscussionItemComponent,
+    DiscussionDetailComponent,
+    DiscussionStartComponent
   ],
   imports: [
     BrowserModule,

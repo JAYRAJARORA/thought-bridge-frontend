@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../shared/models/category.model';
 import { CategoryService } from '../shared/category.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -13,15 +14,7 @@ export class CategoryComponent implements OnInit {
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
-    this.categoryService.getAllCategories().subscribe({
-      next: categories => {
-        this.categories = categories;
-      },
-      error: (error) => {
-        console.log('Error fetching categories:', error);
-      }
-    });
-
+    this.categories = this.categoryService.categories;
   }
 
   onCategoryClick(category: Category): void {

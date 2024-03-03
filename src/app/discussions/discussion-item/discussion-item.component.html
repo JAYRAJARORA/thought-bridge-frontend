@@ -1,0 +1,11 @@
+<a style="cursor: pointer;" class="list-group-item clearfix" 
+    routerLinkActive="active"
+    [routerLink]="[index]">
+    <div class="pull-left">
+        <h4 class="list-group-item-heading">{{ discussion.category.name }}</h4>
+        <p class="list-group-item-text">{{ discussion.title }}</p>
+    </div>
+    <span class="pull-right">
+        <span>{{ discussion.author.username }}</span>
+    </span>
+</a>

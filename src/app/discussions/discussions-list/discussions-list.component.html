@@ -1,14 +1,12 @@
-<ul class="list-group">
-    <li class="list-group-item" *ngFor="let discussion of discussions">
-      <div class="row">
-        <div class="col-md-9">
-          <h5 class="card-title">{{ discussion.title }}</h5>
-          <p class="card-text">{{ discussion.content }}</p>
-        </div>
-        <div class="col-md-3">
-          <p class="card-text"><small class="text-muted">Author: {{ discussion.author?.username }}</small></p>
-          <p class="card-text"><small class="text-muted">Category: {{ discussion.category?.name }}</small></p>
-        </div>
-      </div>
-    </li>
-</ul>
+<div class="row">
+  <div class="col-xs-12">
+    <button mat-raised-button class="btn btn-primary" (click)="openCreateDiscussionModal()">Create New Discussion</button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <app-discussion-item *ngFor="let discussion of discussions" [discussion]="discussion"
+    [index]="discussion.id"></app-discussion-item>
+  </div>
+</div>
