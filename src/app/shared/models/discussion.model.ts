@@ -9,5 +9,5 @@ export class Discussion {
     title: string;
     content: string;
     comments: Comment[];
-    likes: string;
+    upvotes: number;
 }

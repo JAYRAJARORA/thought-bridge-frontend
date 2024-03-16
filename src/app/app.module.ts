@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
 
 
 import { AppComponent } from './app.component';
@@ -27,7 +28,8 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { DiscussionItemComponent } from './discussions/discussion-item/discussion-item.component';
 import { DiscussionDetailComponent } from './discussions/discussion-detail/discussion-detail.component';
 import { DiscussionStartComponent } from './discussions/discussion-start/discussion-start.component';
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { CommentsComponent } from './discussions/discussion-detail/comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { DiscussionStartComponent } from './discussions/discussion-start/discuss
     DropdownDirective,
     DiscussionItemComponent,
     DiscussionDetailComponent,
-    DiscussionStartComponent
+    DiscussionStartComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,9 +61,12 @@ import { DiscussionStartComponent } from './discussions/discussion-start/discuss
     FormsModule,
     HttpClientModule,
     MatSnackBarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatIconModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

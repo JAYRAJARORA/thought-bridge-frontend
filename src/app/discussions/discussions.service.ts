@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Discussion } from "../shared/models/discussion.model";
-import { Observable, of, switchMap, tap } from "rxjs";
+import { BehaviorSubject, Observable, of, switchMap, tap } from "rxjs";
 import { environment } from "../../environments/environment";
 import { Comment } from "../shared/models/comment.model";
 
@@ -9,6 +9,8 @@ import { Comment } from "../shared/models/comment.model";
 export class DiscussionService {
   private baseUrl: string;
   discussionsChanged = new EventEmitter<Discussion[]>();
+  commentAdded = new EventEmitter<void>();
+  selectedDiscussion = new BehaviorSubject<Discussion>(null);
   
   discussions : Discussion[] = [];
 
@@ -42,12 +44,15 @@ export class DiscussionService {
 
   findDiscussionById(id: string): Observable<Discussion> {
     if (this.discussions.length === 0) {
+      
       return this.getDiscussions().pipe(
         switchMap(() => this.findDiscussionById(id))
       );
     }
 
     const discussion = this.discussions.find(d => d.id === id);
+    
+    this.selectedDiscussion.next(discussion);
     return of(discussion);
   }
 }

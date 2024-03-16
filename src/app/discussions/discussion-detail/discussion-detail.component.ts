@@ -2,11 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DiscussionService } from '../discussions.service';
 import { Discussion } from '../../shared/models/discussion.model';
-import { Comment } from '../../shared/models/comment.model';
-import { AuthService } from '../../auth/auth.service';
-import { take } from 'rxjs';
-import { User } from '../../shared/models/user.model';
-import { MessageService } from '../../shared/message.service';
 
 @Component({
   selector: 'app-discussion-detail',
@@ -19,54 +14,22 @@ export class DiscussionDetailComponent implements OnInit {
     title: '',
     content: '',
     author: null,
-    comments: null,
-    likes: '',
+    comments: [],
+    upvotes: 0,
     category: null
   };
-  comment: Comment = {
-    content: '',
-    author: null,
-    dateCreated: null,
-  };
 
-  newComment: string;
   constructor(private route: ActivatedRoute, 
-    private discussionService: DiscussionService, 
-    private authService: AuthService, 
-    private messageService: MessageService
+    private discussionService: DiscussionService
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.discussionService.findDiscussionById(params['id']).subscribe((discussion: Discussion) => {
         this.discussion = discussion;
-        this.newComment = '';
       });
     });
+    this.discussionService.commentAdded.subscribe(() => this.discussion.comments.length++);
   }
-
-  addComment(newComment: string) {
-    const date = new Date();
-    this.authService.userLoggedIn.pipe(take(1)).subscribe(userData => {
-      this.comment.author = new User();
-      this.comment.author.username = userData.username;
-      this.comment.content = newComment;
-      // this.comment.dateCreated = date;
-
-      this.discussionService.addCommentToDiscussion(this.discussion.id, this.comment).subscribe({
-        next: discussion => {
-          this.discussion = discussion;
-          this.messageService.showSuccessMessage("Comment Added Successfully")
-          this.newComment = '';
-        },
-        error: errorResponse => this.messageService.showErrorMessage("Unable to add comment")
-        
-      });
-
-      
-    });
-  }
-
-
 
 }

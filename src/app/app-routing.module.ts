@@ -13,13 +13,16 @@ import { DiscussionAddComponent } from "./discussions/discussion-add/discussion-
 import { AuthGuard } from "./auth/auth.guard";
 import { DiscussionDetailComponent } from "./discussions/discussion-detail/discussion-detail.component";
 import { DiscussionStartComponent } from "./discussions/discussion-start/discussion-start.component";
+import { CommentsComponent } from "./discussions/discussion-detail/comments/comments.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'discussions', component: DiscussionsComponent, canActivate:[AuthGuard], children: [
         { path: '', component: DiscussionStartComponent },
         { path: 'new', component: DiscussionAddComponent },
-        { path: ':id', component: DiscussionDetailComponent }
+        { path: ':id', component: DiscussionDetailComponent, children: [
+            { path: 'comments', component: CommentsComponent }
+        ] }
     ] },
     { path: 'articles', component: ArticlesComponent, canActivate:[AuthGuard] },
     { path: 'find-therapists', component: FindTherapistComponent, canActivate:[AuthGuard] },

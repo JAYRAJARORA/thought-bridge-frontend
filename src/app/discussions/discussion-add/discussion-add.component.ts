@@ -21,7 +21,7 @@ export class DiscussionAddComponent implements OnInit {
     title: '',
     content: '',
     comments: [],
-    likes: ''
+    upvotes: 0
   };
 
   categories: Category[];
