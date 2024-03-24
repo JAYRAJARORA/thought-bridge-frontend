@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { User } from '../../shared/models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
+import { Therapist } from '../../shared/models/therapist.model';
+import { CategoryService } from '../../shared/category.service';
+import { Category } from '../../shared/models/category.model';
 
 @Component({
   selector: 'app-register',
@@ -11,9 +14,38 @@ import { NgForm } from '@angular/forms';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  userType: string = 'user';
   user: User = { username: '', password: '', email: '' };
+  therapist: Therapist = { 
+    username: '', 
+    password: '', 
+    email: '', 
+    name: '', 
+    specialization: '', 
+    categories: [], 
+    qualifications: '',
+    phoneNumber: null,
+    address: '',
+    state: '',
+    city: '',
+    country: '',
+    postalCode: null,
+  };
 
-  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
+  categories: Category[];
+  selectedCategories: Category[];
+
+  constructor(private authService: AuthService, 
+    private router: Router, private snackBar: MatSnackBar, 
+    private categoryService: CategoryService) { }
+
+
+  ngOnInit() {
+    this.categoryService.getAllCategories().subscribe(categories => {
+      this.categories = categories;
+    });
+
+  }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -30,10 +62,70 @@ export class RegisterComponent {
     this.user.email = form.value.email;
     this.user.password = form.value.password;
 
-    this.authService.register(this.user).subscribe({
+    if (this.userType === 'user') {
+      this.register(this.user, 'users');
+
+    } else if (this.userType === 'therapist') {
+      this.therapist.phoneNumber = form.value.phoneNumber;
+      this.therapist.address = form.value.address;
+      this.therapist.name = form.value.name;
+      this.therapist.specialization = form.value.specialization;
+      this.therapist.qualifications = form.value.qualifications;
+
+      this.therapist.username = form.value.username;
+      this.therapist.email = form.value.email;
+      this.therapist.password = form.value.password;
+      
+      this.therapist.categories = this.selectedCategories;
+      this.register(this.therapist, 'therapists');
+    }
+    
+
+    form.reset();
+  }
+
+  onPlaceSelect(place: any) {
+    let addressComponents = place.address_components;
+    console.log(addressComponents);
+    
+    if (!addressComponents) return;
+
+    const streetAddress = this.getAddressComponentValue(addressComponents, 'street_number') + ' ' +
+      this.getAddressComponentValue(addressComponents, 'route');
+    const city = this.getAddressComponentValue(addressComponents, 'locality');
+    const postalCode = this.getAddressComponentValue(addressComponents, 'postal_code');
+    const state = this.getAddressComponentValue(addressComponents, 'administrative_area_level_1');
+    const country = this.getAddressComponentValue(addressComponents, 'country');
+
+    console.log("values populated");
+    
+    console.log(streetAddress);
+    
+    this.therapist.address = streetAddress;
+    this.therapist.city = city;
+    this.therapist.postalCode = +postalCode;
+    this.therapist.state = state;
+    this.therapist.country = country;
+      
+  }
+
+  private getAddressComponentValue(components: any[], type: string): string {
+    const component = components.find(comp => comp.types.includes(type));
+    return component ? component.long_name : '';
+  }
+
+  
+  register(user, url) {
+    this.authService.register(user, url).subscribe({
       next: (response) => {
         console.log('Signup successful!', response);
         this.openSnackBar(response.body, 'Close');
+        let userData = {username: this.user.username, authenticated: true, type: this.userType};
+          // right now logged in user are handled by boolean value - TODO - handle using Proper jwt token
+          this.authService.userLoggedIn.next(userData);
+          this.router.navigate(['/']);
+          localStorage.setItem('userData', JSON.stringify(userData));
+          this.authService.autoLogout(1000000);
       },
       error: (errorResponse) => {
         console.error('Signup failed!', errorResponse);
@@ -44,10 +136,23 @@ export class RegisterComponent {
         }
       }
     });
-
-    form.reset();
   }
 
+  onSelectionChange(event: any) {
+    const selectedOptions = event.target.options;
+    this.selectedCategories = [];
+    for (let i = 0; i < selectedOptions.length; i++) {
+      if (selectedOptions[i].selected) {
+        const categoryId = selectedOptions[i].value;
+        const selectedCategory = this.categories.find(category => category.id === categoryId);
+        if (selectedCategory) {
+          this.selectedCategories.push(selectedCategory);
+        }
+      }
+    }
+  }
+
+  
   goToLogin() {
     this.router.navigate(['/login']);
   }

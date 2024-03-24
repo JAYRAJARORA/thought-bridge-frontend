@@ -1,0 +1,67 @@
+<div class="container">
+  <h2>List of Therapists</h2>
+
+  <!-- Filters -->
+  <div class="row mb-4">
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <mat-label>Filter by Categories</mat-label>
+          <mat-select multiple [(ngModel)]="selectedCategoriesFilter" (selectionChange)="applyFilters()">
+            <mat-option *ngFor="let category of allCategories" [value]="category.name">{{ category.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>          
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <input matInput type="text" placeholder="Search by Specialization" [(ngModel)]="specializationFilter" (input)="applyFilters()">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <input matInput type="text" placeholder="Search by Location" [(ngModel)]="locationFilter" (input)="applyFilters()">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Filter by Rating</mat-label>
+          <mat-select [(ngModel)]="ratingFilter" (selectionChange)="applyFilters()">
+            <mat-option value="0">Unrated</mat-option>
+            <mat-option value="1">1 and above</mat-option>
+            <mat-option value="2">2 and above</mat-option>
+            <mat-option value="3">3 and above</mat-option>
+            <mat-option value="4">4 and above</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  </div>
+<div class="row">
+  <div class="col-md-12 text-right">
+    <button mat-flat-button color="primary" (click)="clearFilters()">Clear Filters</button>
+  </div>
+</div>
+  <!-- Therapists List -->
+  <div class="row">
+      <div class="col-md-12">
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Specialization</th>
+                      <th colspan="3">Categories</th>
+                      <th>Location</th>
+                      <th>Average Rating</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let therapist of filteredTherapists">
+                      <td>{{ therapist.name }}</td>
+                      <td>{{ therapist.specialization }}</td>
+                      <td colspan="3">{{ getFormattedCategories(therapist) }}</td>
+                      <td>{{ therapist.address }}, {{ therapist.city }}, {{ therapist.state }}, {{ therapist.country }}</td>
+                      <td>{{ therapist.avgRating === 0 ? 'N/A': therapist.avgRating }}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Comment } from '../../../shared/models/comment.model';
 import { AuthService } from '../../../auth/auth.service';
 import { take } from 'rxjs';
-import { User } from '../../../shared/models/user.model';
 import { DiscussionService } from '../../discussions.service';
 import { Discussion } from '../../../shared/models/discussion.model';
 import { MessageService } from '../../../shared/message.service';
@@ -13,6 +12,7 @@ import { MessageService } from '../../../shared/message.service';
   styleUrl: './comments.component.css'
 })
 export class CommentsComponent {
+  userType: string;
   newComment: string;
   discussion: Discussion;
 
@@ -23,24 +23,24 @@ export class CommentsComponent {
   };
 
   ngOnInit() {
+    
     this.discussionService.selectedDiscussion.subscribe((discussion) => {
       this.discussion = discussion;
-      console.log("Here we got the discussion");
-      
-      console.log(discussion);
-      
+      this.authService.userLoggedIn.subscribe((userData) => {
+        this.userType = userData.type;
+      });
     });
   }
   constructor(
     private authService: AuthService, 
     private discussionService: DiscussionService, 
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   addComment(newComment: string) {
     const date = new Date();
     this.authService.userLoggedIn.pipe(take(1)).subscribe(userData => {
-      this.comment.author = new User();
+      this.comment.author = {username: ''};
       this.comment.author.username = userData.username;
       this.comment.content = newComment;
       // this.comment.dateCreated = date;

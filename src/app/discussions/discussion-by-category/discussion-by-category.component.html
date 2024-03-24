@@ -1,0 +1,27 @@
+<div class="row mt-4" *ngIf="discussions && discussions.length > 0">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Content</th>
+              <th>Author</th>
+              <th>Category</th>
+              <th>Likes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let discussion of discussions">
+              <td><a style="cursor: pointer;text-decoration: none;color:inherit;font-weight: bold;" [routerLink]="['articles', discussion.id]">{{ discussion.title }}</a></td>
+              <td>{{ discussion.content }}</td>
+              <td>{{ discussion.author.username }}</td>
+              <td>{{ discussion.category.name }}</td>
+              <td>{{ discussion.upvotes }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

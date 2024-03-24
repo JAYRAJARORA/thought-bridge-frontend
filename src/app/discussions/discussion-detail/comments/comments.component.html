@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="userType == 'therapist' || discussion.type == 'articles'">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -17,7 +17,7 @@
     <div class="col-md-12">
         <h3>Comments</h3>
         <ul class="list-group">
-            <li class="list-group-item" *ngFor="let comment of discussion.comments">
+            <li class="list-group-item" *ngFor="let comment of discussion?.comments">
                 <span class="font-weight-bold">{{ comment.author.username }}:</span> {{ comment.content }}
             </li>
         </ul>

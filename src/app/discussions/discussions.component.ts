@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DiscussionService } from './discussions.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-discussions',
@@ -7,15 +8,22 @@ import { DiscussionService } from './discussions.service';
   styleUrl: './discussions.component.css'
 })
 export class DiscussionsComponent {
-
-  constructor(private discussionService: DiscussionService) {
+  type: string;
+  constructor(private discussionService: DiscussionService, private route: ActivatedRoute) {
 
   }
 
   ngOnInit() {
-    console.log("The first thing that happened");
+    this.route.data.subscribe(data => {
+      let type = data.type; // Retrieve the type from route data
+      if(this.type == 'articles') {
+        this.discussionService.getDiscussions(type).subscribe();
+      } else {
+        this.discussionService.getDiscussions(type).subscribe();
+      }
+      this.type = type;
+    });    
     
-    this.discussionService.getDiscussions().subscribe();
     
     
   }

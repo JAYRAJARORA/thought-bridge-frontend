@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -7,21 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  issues: string[] = ['ADHD', 'Depression', 'Anxiety']; // Example issues
-  trendingPosts: any[] = []; // Placeholder for trending posts
-  articles: any[] = []; // Placeholder for articles
+  isAuthenticated = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    // Fetch trending posts and articles for default issue
-    this.showTrendingPosts(this.issues[0]);
+    this.authService.userLoggedIn.subscribe((userLoggedIn) => {
+      this.isAuthenticated = userLoggedIn ? userLoggedIn.authenticated : false;
+    })
   }
 
-  showTrendingPosts(issue: string): void {
-    this.trendingPosts = [{ title: 'Post 1', author: 'Author 1' }, { title: 'Post 2', author: 'Author 2' }];
-    this.articles = [{ title: 'Article 1', author: 'Author 1' }, { title: 'Article 2', author: 'Author 2' }];
-  }
 
   redirectToLogin(): void {
     // Redirect to the login page

@@ -10,8 +10,9 @@
                 <p class="card-text">{{ discussion.content }}</p>
 
                 <div class="votes">
-                    <mat-icon class="upvote">thumb_up</mat-icon>
-                    <span class="vote-count">{{ discussion.upvotes }}</span>
+                    <a *ngIf="discussion.type == 'articles'" style="cursor: pointer; color: black; text-decoration: none;">
+                        <mat-icon class="upvote" (click)="toggleUpvoteDiscussion()" [style.color]="hasUserUpvoted ? 'blue' : 'inherit'">thumb_up</mat-icon><span>{{ discussion.upvotes }}</span>
+                    </a>
                     &nbsp;
                     <a routerLink="comments" style="cursor: pointer; color: black; text-decoration: none;">
                         <mat-icon>comment</mat-icon><span>{{ discussion.comments.length }}</span>

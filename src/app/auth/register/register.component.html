@@ -1,11 +1,71 @@
 <div class="container">
-    <div class="row justify-content-center mt-5"> <!-- Center the form vertically -->
-      <div class="col-md-6">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <ul class="nav nav-tabs mb-3">
+        <li class="nav-item" [ngClass]="{ 'active': userType === 'user' }">
+          <a class="nav-link" (click)="userType = 'user'" style="cursor: pointer;">Register as User</a>
+        </li>
+        <li class="nav-item" [ngClass]="{ 'active': userType === 'therapist' }">
+          <a class="nav-link" (click)="userType = 'therapist'" style="cursor: pointer;">Register as Therapist</a>
+        </li>
+      </ul>
         <form #authForm="ngForm" class="mt-4" (ngSubmit)="onSubmit(authForm)">
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" id="username" name="username" class="form-control" 
             ngModel required>
+          </div>
+          <div *ngIf="userType === 'therapist'">
+            <!-- Therapist registration fields -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" name="name" class="form-control" ngModel required>
+            </div>
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Mobile Number</label>
+              <input type="string" id="phoneNumber" name="phoneNumber" class="form-control" ngModel required>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" id="address" name="address" class="form-control" [(ngModel)]="therapist.address" required
+              autocompleteAddress (onSelect)="onPlaceSelect($event)">
+            </div>
+            <div class="mb-3 row">
+              <div class="col-md-6">
+                <label for="city" class="form-label">City</label>
+                <input type="text" id="city" name="city" class="form-control" [(ngModel)]="therapist.city" required>
+              </div>
+              <div class="col-md-6">
+                <label for="state" class="form-label">State</label>
+                <input type="text" id="state" name="state" class="form-control" [(ngModel)]="therapist.state" required>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-md-6">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" id="country" name="country" class="form-control" [(ngModel)]="therapist.country" required>
+              </div>
+              <div class="col-md-6">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="text" id="postalCode" name="postalCode" class="form-control" [(ngModel)]="therapist.postalCode" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="specialization" class="form-label">Specialization</label>
+              <input type="text" id="specialization" name="specialization" class="form-control" ngModel required>
+            </div>
+            <div class="mb-3">
+              <label for="qualifications" class="form-label">Qualifications</label>
+              <input type="text" id="qualifications" name="qualifications" class="form-control" ngModel>
+            </div>
+            <div class="mb-3">
+              <label for="categories" class="form-label">Categories</label>
+              <select id="categories" name="categories" class="form-control" multiple (change)="onSelectionChange($event)">
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -15,6 +75,7 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" id="password" name="password" class="form-control" ngModel required minlength="6">
           </div>
+
           <br>
           <button type="submit" class="btn btn-primary" [disabled]="!authForm.valid">Register</button>&nbsp; Already have an account? &nbsp;<a routerLink="/login" style="cursor: pointer;">Login</a>
         </form>

@@ -3,7 +3,6 @@ import { User } from '../../shared/models/user.model';
 import { AuthService } from '../auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +10,8 @@ import { Subject } from 'rxjs';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  user: User = new User();
+  userType: string = 'user';
+  user: User = {username: ''  , password: '', email: ''};
 
   constructor(private authService: AuthService, private snackBar: MatSnackBar, private router: Router) { }
 
@@ -22,16 +22,18 @@ export class LoginComponent {
   }
 
   login() {
-    this.authService.login(this.user).subscribe({
+    this.authService.login(this.user, this.userType).subscribe({
       next: (response) => {
+        console.log(response);
+        
         if (response) {
           this.openSnackBar("User Logged In", 'Close');
-          let userData = {username: this.user.username, authenticated: true};
+          let userData = {username: response.username, type: response.type, authenticated: true};
           // right now logged in user are handled by boolean value - TODO - handle using Proper jwt token
           this.authService.userLoggedIn.next(userData);
           this.router.navigate(['/']);
           localStorage.setItem('userData', JSON.stringify(userData));
-          this.authService.autoLogout(1000000);
+          //this.authService.autoLogout(1000000);
         } else {
           
           this.openSnackBar("Invalid Credentials", "Try Again");

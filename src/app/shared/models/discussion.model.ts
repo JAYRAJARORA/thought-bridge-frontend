@@ -1,6 +1,7 @@
 import { Category } from "./category.model";
 import { User } from "./user.model";
 import { Comment } from "./comment.model";
+import { Upvote } from "./upvote.model";
 
 export class Discussion {
     id: string;
@@ -10,4 +11,6 @@ export class Discussion {
     content: string;
     comments: Comment[];
     upvotes: number;
+    upvoteDetail?: Upvote[];
+    type: string;
 }

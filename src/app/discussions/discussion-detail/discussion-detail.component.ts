@@ -9,6 +9,8 @@ import { Discussion } from '../../shared/models/discussion.model';
   styleUrl: './discussion-detail.component.css'
 })
 export class DiscussionDetailComponent implements OnInit {
+  hasUserUpvoted = false;
+  username = '';
   discussion: Discussion = {
     id: '',
     title: '',
@@ -16,7 +18,8 @@ export class DiscussionDetailComponent implements OnInit {
     author: null,
     comments: [],
     upvotes: 0,
-    category: null
+    category: null,
+    type: ''
   };
 
   constructor(private route: ActivatedRoute, 
@@ -27,9 +30,23 @@ export class DiscussionDetailComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.discussionService.findDiscussionById(params['id']).subscribe((discussion: Discussion) => {
         this.discussion = discussion;
+        console.log("Here");
+        console.log(this.discussion);
+        
+        
+        const userDataObj = JSON.parse(localStorage.getItem('userData'));
+        this.username = userDataObj.username;
+        this.hasUserUpvoted = this.discussion.upvoteDetail?.filter(userData => userData.user.username == this.username).length > 0;
       });
     });
     this.discussionService.commentAdded.subscribe(() => this.discussion.comments.length++);
+
   }
 
+  toggleUpvoteDiscussion() {
+    this.discussionService.toggleUpvoteOnDiscussion(this.discussion.id, this.username).subscribe((discussion) => {
+      this.discussion = discussion;
+      this.hasUserUpvoted = this.discussion.upvoteDetail?.filter(userData => userData.user.username == this.username).length > 0;
+    });
+  }
 }

@@ -1,17 +1,25 @@
-<div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Discussions by Category</h2>
-        <div class="card-group">
-          <div class="card" *ngFor="let discussion of discussions">
-            <div class="card-body">
-              <h5 class="card-title">{{ discussion.title }}</h5>
-              <p class="card-text">{{ discussion.content }}</p>
-              <p class="card-text"><small class="text-muted">Author: {{ discussion.author.username }}</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="row mt-4" *ngIf="trendingDiscussions && trendingDiscussions.length > 0">
+  <div class="col">
+    <h3>Trending Articles</h3>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Likes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let discussion of trendingDiscussions">
+            <td>{{ discussion.title }}</td>
+            <td>{{ discussion.author.username }}</td>
+            <td>{{ discussion.category.name }} </td>
+            <td>{{ discussion.upvotes }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  
+</div>

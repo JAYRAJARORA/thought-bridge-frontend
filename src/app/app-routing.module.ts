@@ -1,7 +1,5 @@
 import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
-import { ArticlesComponent } from "./articles/articles.component";
-import { FindTherapistComponent } from "./find-therapist/find-therapist.component";
 import { ResourcesComponent } from "./resources/resources.component";
 import { NgModule } from "@angular/core";
 import { ContactComponent } from "./contact/contact.component";
@@ -14,18 +12,25 @@ import { AuthGuard } from "./auth/auth.guard";
 import { DiscussionDetailComponent } from "./discussions/discussion-detail/discussion-detail.component";
 import { DiscussionStartComponent } from "./discussions/discussion-start/discussion-start.component";
 import { CommentsComponent } from "./discussions/discussion-detail/comments/comments.component";
+import { TherapistsComponent } from "./therapists/therapists.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'discussions', component: DiscussionsComponent, canActivate:[AuthGuard], children: [
-        { path: '', component: DiscussionStartComponent },
+    { path: 'issues', component: DiscussionsComponent, canActivate:[AuthGuard], data: { type: 'issues' }, children: [
+        { path: '', component: DiscussionStartComponent , data: { type: 'issue' } },
         { path: 'new', component: DiscussionAddComponent },
-        { path: ':id', component: DiscussionDetailComponent, children: [
+        { path: ':id', component: DiscussionDetailComponent, data: { type: 'issue' }, children: [
+            { path: 'comments', component: CommentsComponent}
+        ] }
+    ] },
+    { path: 'articles', component: DiscussionsComponent, canActivate:[AuthGuard], data: { type: 'articles' }, children: [
+        { path: '', component: DiscussionStartComponent , data: { type: 'article' }},
+        { path: 'new', component: DiscussionAddComponent },
+        { path: ':id', component: DiscussionDetailComponent, data: { type: 'article' }, children: [
             { path: 'comments', component: CommentsComponent }
         ] }
     ] },
-    { path: 'articles', component: ArticlesComponent, canActivate:[AuthGuard] },
-    { path: 'find-therapists', component: FindTherapistComponent, canActivate:[AuthGuard] },
+    { path: 'therapists', component: TherapistsComponent, canActivate:[AuthGuard] },
     { path: 'resources', component: ResourcesComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },

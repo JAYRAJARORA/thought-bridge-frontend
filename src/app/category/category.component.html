@@ -1,17 +1,12 @@
-<div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="card-title">Categories</h2>
-            <div class="btn-group" role="group">
-              <button *ngFor="let category of categories" type="button" class="btn btn-default mr-2 mb-2 px-4 py-2" (click)="onCategoryClick(category)">
-                {{ category.name }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="row mt-4">
+  <div class="col">
+    <h3 class="card-title">Show Articles by Categories</h3>
+    <mat-form-field>
+      <mat-select [placeholder]="'Select Categories'" [multiple]="true">
+        <mat-option *ngFor="let category of categories" [value]="category.id" (click)="onCategoryClick(category.id)">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-  
+</div>

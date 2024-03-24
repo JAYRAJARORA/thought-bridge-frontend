@@ -12,7 +12,7 @@ export class CategoryService {
         this.baseUrl = environment.domain
     }
 
-    categorySelected  = new EventEmitter<string>();
+    categorySelected  = new EventEmitter<string[]>();
     
     getAllCategories(): Observable<Category[]> {
         return this.http.get<Category[]>(`${this.baseUrl}/categories`).pipe(tap((categories) => {

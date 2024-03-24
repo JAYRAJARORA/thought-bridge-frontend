@@ -1,41 +1,13 @@
 <div class="container">
-    <!-- Issues section -->
-    <div class="row mt-4">
-      <div class="col">
-        <app-category></app-category>
-      </div>
+  <div class="row mt-4" *ngIf="!isAuthenticated">
+    <div class="col">
+      <button class="btn btn-primary" (click)="redirectToLogin()">Join the Conversation</button>
     </div>
-  
-    <!-- Trending posts section -->
-    <div class="row mt-4">
-      <div class="col">
-        <h3>Trending Discussions</h3>
-        <app-discussion-list-trending></app-discussion-list-trending>
-      </div>
-    </div>
-  
-    <!-- Articles section -->
-    <div class="row mt-4">
-      <div class="col">
-        <h3>Articles</h3>
-        <div *ngFor="let article of articles">
-          {{ article.title }} - {{ article.author }}
-        </div>
-      </div>
-    </div>
-  
-    <!-- Urgent care button -->
-    <div class="row mt-4">
-      <div class="col">
-        <button class="btn btn-danger">Urgent Care</button>
-      </div>
-    </div>
-  
-    <!-- Join the Conversation button -->
-    <div class="row mt-4">
-      <div class="col">
-        <button class="btn btn-primary" (click)="redirectToLogin()">Join the Conversation</button>
-      </div>
-    </div>
+  </div>
+
+
+    <app-discussion-list-trending></app-discussion-list-trending>
+    <app-category></app-category>
+    <app-discussion-by-category></app-discussion-by-category>
   </div>
   

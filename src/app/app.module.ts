@@ -5,14 +5,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonModule } from '@angular/material/button';
 
 
 import { AppComponent } from './app.component';
 import { DiscussionListTrendingComponent } from './discussions/discussion-list-trending/discussion-list-trending.component';
-import { ArticlesComponent } from './articles/articles.component';
 import { HomeComponent } from './home/home.component';
 import { ResourcesComponent } from './resources/resources.component';
-import { FindTherapistComponent } from './find-therapist/find-therapist.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,16 +32,17 @@ import { DiscussionDetailComponent } from './discussions/discussion-detail/discu
 import { DiscussionStartComponent } from './discussions/discussion-start/discussion-start.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CommentsComponent } from './discussions/discussion-detail/comments/comments.component';
+import { AutocompleteAddressDirective } from './shared/directives/AutocompleteAddress.directive';
+import { TherapistsComponent } from './therapists/therapists.component';
+import { DiscussionByCategoryComponent } from './discussions/discussion-by-category/discussion-by-category.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DiscussionsComponent,
     DiscussionListTrendingComponent,
-    ArticlesComponent,
     HomeComponent,
     ResourcesComponent,
-    FindTherapistComponent,
     HeaderComponent,
     FooterComponent,
     ContactComponent,
@@ -54,6 +57,9 @@ import { CommentsComponent } from './discussions/discussion-detail/comments/comm
     DiscussionDetailComponent,
     DiscussionStartComponent,
     CommentsComponent,
+    AutocompleteAddressDirective,
+    TherapistsComponent,
+    DiscussionByCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,11 @@ import { CommentsComponent } from './discussions/discussion-detail/comments/comm
     HttpClientModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule
   ],
   providers: [
     provideAnimationsAsync()
