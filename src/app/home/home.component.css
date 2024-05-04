@@ -1,0 +1,34 @@
+/* src/app/homepage/homepage.component.css */
+.bg-image {
+  background-position: left center;  /* Adjust background position if necessary */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('/assets/glass.jpeg');
+  height: 350px;
+}
+
+.background-transparent {
+  background-color: rgba(255, 255, 255, 0.8); /* Slight transparency for readability */
+}
+
+.custom-card {
+  max-width: 400px; /* Adjust the maximum width of the card if necessary */
+}
+
+.bold-text {
+  font-weight: bold;
+  color: #333; /* Darker color for better contrast */
+}
+
+.normal-text {
+  font-size: 16px;
+  color: #333;
+}
+
+.purple-icon {
+  color: #800080; /* Hex code for purple */
+}
+
+.custom {
+  margin-top: 80px;
+}

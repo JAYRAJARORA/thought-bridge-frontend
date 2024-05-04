@@ -1,0 +1,65 @@
+<div *ngIf="reviews.length > 0; else noReviews" class="reviews-container">
+    <mat-accordion multi="true">
+      <mat-expansion-panel *ngFor="let review of reviews" class="review-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>person</mat-icon>
+            <span class="review-author">&nbsp;{{ review.username }}</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <div class="review-rating">
+              <rating [(ngModel)]="review.rating"  style="color: gold; font: 100px;"
+                      max="5" 
+                      [readonly]="true" 
+                      [stateOn]="'fas fa-star rating-star'"
+                      [stateOff]="'far fa-star rating-star'"
+                      class="star-rating">
+              </rating> &nbsp;
+              <span class="rating-number">{{ review.rating }} / 5</span>
+            </div>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-card>
+          <mat-card-content>
+            <div class="review-details">
+              <div class="review-date">
+                <mat-icon>calendar_today</mat-icon>
+                &nbsp;Review on {{ review.date | date:'mediumDate' }}
+              </div>
+              <p class="review-content">{{ review.content || 'No review comment provided.' }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+
+  <div class="review-form">
+    <form (ngSubmit)="submitReview()">
+      <mat-form-field appearance="fill" class="review-input">
+        <mat-label>{{ existingReviewIndex === -1 ? 'Write a review' : 'Update your review' }} (optional)</mat-label>
+        <textarea matInput [(ngModel)]="newReview.content" name="content"></textarea>
+      </mat-form-field>
+
+      <div class="review-rating">
+        <label>Rating:</label>
+        <rating name="rating" [(ngModel)]="newReview.rating" max="5" [readonly]="false" style="color:gold; font: 100px;"
+                aria-label="Rate this">
+        </rating>
+      </div>
+
+      <button mat-raised-button color="primary" type="submit">{{ existingReviewIndex === -1 ? 'Submit Review' : 'Update Review' }}</button>
+
+    </form>
+  </div>
+
+  <ng-template #noReviews>
+    <div class="no-reviews-message">
+      <p>No reviews yet. Be the first to review!</p>
+    </div>
+  </ng-template>
+
+
+
+  

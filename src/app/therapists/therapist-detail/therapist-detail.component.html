@@ -1,0 +1,93 @@
+<div *ngIf="therapist" class="therapist-details">
+  <div class="header">
+    <h2>{{ therapist.name }}</h2>
+    <br>
+    <!-- Wrap the rating component in a div for better styling control -->
+    <div class="bs-rating">
+      <span style="font-size: 20px;">{{ therapist.avgRating == 0 ? 'Unrated' : therapist.avgRating  }}</span> &nbsp;
+      <rating [(ngModel)]="therapist.avgRating" style="color: #ffc107;font-size: 20px;"
+              [max]="5"
+              [readonly]="true"
+              [stateOn]="'fas fa-star'"
+              [stateOff]="'fas fa-star-o'"
+              
+              matTooltip="{{ therapist.avgRating == 0 ? 'Unrated' : therapist.avgRating + ' out of 5 ' }}"
+              > 
+              
+      </rating>
+    </div>
+
+  <p><mat-icon>stars</mat-icon> <strong>Specialization:</strong> {{ therapist.specialization }}</p>
+  <p><mat-icon>school</mat-icon> <strong>Qualifications:</strong> {{ therapist.qualifications }}</p>
+
+
+  <h3>Professional Details</h3>
+  <p><mat-icon>work_outline</mat-icon> <strong>Experience:</strong> {{ therapist.experience }} years</p>
+  <p><mat-icon>school</mat-icon> <strong>Education:</strong> {{ therapist.education }}</p>
+  <p><mat-icon>badge</mat-icon> <strong>Licenses:</strong> {{ therapist.licenseCertification }}</p>
+  <p><mat-icon>psychology</mat-icon> <strong>Treatment Approaches:</strong> {{ therapist.treatmentApproaches }}</p>
+
+  <h3>Availability</h3>
+  <table class="availability-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let availability of therapist.availability">
+        <td>{{ availability.name }}</td>
+        <td>{{ availability.startTime }}</td>
+        <td>{{ availability.endTime }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Online Meetings</h3>
+  <p><mat-icon>video_call</mat-icon> <a href="{{ therapist.meetingLink }}" target="_blank">Join Meeting</a></p>
+
+
+  <h3>Financials</h3>
+  <p><mat-icon>attach_money</mat-icon> <strong>Fees:</strong> {{ therapist.fees }}</p>
+  <p><mat-icon>health_and_safety</mat-icon> <strong>Insurance:</strong> {{ therapist.insuranceAccepted }}</p>
+  <p><mat-icon>more</mat-icon> <strong>Additional Services:</strong> {{ therapist.additionalServices }}</p>
+  
+  <h3>Location</h3>
+  <p>
+  <google-map [center]="center" height="400px" width="100%">
+    <map-marker *ngFor="let position of markerPositions" [position]="position"></map-marker>
+  </google-map>
+</p>
+  <!-- <p><mat-icon>location_on</mat-icon> {{ therapist.address.formattedAddress }}</p> -->
+  <h3>Primary Location</h3>
+  <p class="address">
+    {{ therapist.address.formattedAddress || 
+      (therapist.address.street + ', ' + therapist.address.city + ', ' + therapist.address.state + ' ' + therapist.address.postalCode) }}
+  </p>
+  <p class="contact-details">
+    <mat-list-item>
+      <h4 mat-line>Email Me</h4> <!-- Making the action clear -->
+      <a mat-button href="mailto:{{ therapist.email }}" style="margin-left: auto; color: #ffffff; background-color: #3f51b5; border-radius: 4px; padding: 8px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+          <mat-icon>send</mat-icon> Send Email
+      </a>
+  </mat-list-item> &nbsp;
+  <mat-list-item>
+    <h4 mat-line>Call</h4> <!-- Displaying the phone number prominently -->
+    <a mat-button href="tel:{{ therapist.phoneNumber }}" style="margin-left: auto; color: #ffffff; background-color: #3f51b5; border-radius: 4px; padding: 8px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+        <mat-icon>phone</mat-icon>{{formatPhoneNumber(therapist.phoneNumber)}}
+    </a>
+</mat-list-item>
+  </p>
+
+  <div class="actions">
+
+  <mat-list-item>
+    <a mat-button routerLink="reviews" style="cursor: pointer; color: #ffffff; background-color: #3f51b5; border-radius: 4px; padding: 8px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); text-decoration: none;" class="review-action-button">
+      <mat-icon>comment</mat-icon>Reviews
+    </a>
+  </mat-list-item>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

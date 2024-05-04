@@ -1,4 +1,5 @@
 export interface LoginResponse {
     username?: string;
-    type?: string;
+    userId?: string;
+    role?: string;
 }

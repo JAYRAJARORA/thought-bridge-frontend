@@ -1,13 +1,57 @@
-<div class="container">
-  <div class="row mt-4" *ngIf="!isAuthenticated">
-    <div class="col">
-      <button class="btn btn-primary" (click)="redirectToLogin()">Join the Conversation</button>
+<!-- src/app/homepage/homepage.component.html -->
+<div class="container-fluid bg-image">
+  <div class="row align-items-center" style="height: 100vh;"> <!-- Ensures full viewport height -->
+    <div class="col-md-6">
+      <!-- Left side is intentionally left empty for background image -->
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-center custom"> <!-- Center content vertically and horizontally -->
+      <mat-card class="text-center background-transparent custom-card">
+        <mat-card-content>
+          <p class="bold-text">
+            Welcome to my application! My platform aims to provide a supportive community and valuable resources for individuals seeking mental health support and guidance.
+          </p>
+          <div *ngIf="!isAuthenticated else loggedInContent">
+          <p class="normal-text">
+            To get started, use the button below:
+          </p>
+          <button mat-raised-button color="accent" (click)="redirectToLogin()">
+            <mat-icon class="purple-icon">login</mat-icon> Get Started
+          </button>
+          </div>
+          <ng-template #loggedInContent>
+            <p class="normal-text">
+              Welcome back, {{ username }}! <br> Get started by clicking one of the options below:
+            </p>
+            <div>
+              <button *ngIf="role=='user'" mat-icon-button matTooltip="Find a Therapist" routerLink="/therapists">
+                <mat-icon class="purple-icon">search</mat-icon>
+              </button>
+            
+              <!-- Write an Issue Button -->
+              <button mat-icon-button matTooltip={{issueTooltip}} routerLink="/issues">
+                <mat-icon class="purple-icon">create</mat-icon>
+              </button>
+            
+              <!-- View Articles Button -->
+              <button mat-icon-button matTooltip="Write and View Articles" routerLink="/articles">
+                <mat-icon class="purple-icon">book</mat-icon>
+              </button>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
-
-
-    <app-discussion-list-trending></app-discussion-list-trending>
-    <app-category></app-category>
-    <app-discussion-by-category></app-discussion-by-category>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6" style="padding-right: 30px;">
+      <!-- app-discussion-list-trending component -->
+      <app-discussion-list-trending></app-discussion-list-trending>
+    </div>
+    <div class="col-md-6" style="padding-right: 15px;">
+      <!-- app-discussion-by-category component -->
+      <app-discussion-by-category></app-discussion-by-category>
+    </div>
   </div>
-  
+</div>

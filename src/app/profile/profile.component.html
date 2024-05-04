@@ -1,0 +1,114 @@
+<div class="container">
+  <h2>Profile</h2>
+  <form #profileForm="ngForm" (ngSubmit)="updateProfile(profileForm)">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" name="username" [(ngModel)]="profile.username" required>
+      <div *ngIf="profileForm.controls['username']?.invalid && (profileForm.controls['username']?.dirty || profileForm.controls['username']?.touched)">
+        <small class="text-danger" *ngIf="profileForm.controls['username']?.errors?.required">Username is required.</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" [(ngModel)]="profile.email" required email>
+      <div *ngIf="profileForm.controls['email']?.invalid && (profileForm.controls['email']?.dirty || profileForm.controls['email']?.touched)">
+        <small class="text-danger" *ngIf="profileForm.controls['email']?.errors?.required">Email is required.</small>
+        <small class="text-danger" *ngIf="profileForm.controls['email']?.errors?.email">Please enter a valid email address.</small>
+      </div>
+    </div>
+    <div *ngIf="userType == 'therapist'">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="profile.name">
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="profile.phoneNumber">
+      </div>
+
+      <app-address-form [address]="profile.address" (addressChange)="handleAddressChange($event)"></app-address-form>
+
+      <div class="form-group">
+        <label for="description">About Yourself:</label>
+        <textarea class="form-control" id="description" name="description" [(ngModel)]="profile.description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="meetingLink">Meeting Link:</label>
+        <input type="text" class="form-control" id="meetingLink" name="meetingLink" [(ngModel)]="profile.meetingLink">
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <input type="text" class="form-control" id="gender" name="gender" [(ngModel)]="profile.gender">
+      </div>
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" class="form-control" id="age" name="age" [(ngModel)]="profile.age">
+      </div>
+      <div class="form-group">
+        <label for="languagesSpoken">Languages Spoken:</label>
+        <select multiple class="form-control" id="languagesSpoken" name="languagesSpoken"
+                [(ngModel)]="profile.languagesSpoken" [compareWith]="compareLanguage">
+          <option *ngFor="let language of languages" [ngValue]="language">{{ language.name}}</option>
+        </select>
+      </div>      
+      <div class="form-group">
+        <label>Availability:</label>
+        <mat-form-field class="full-width">
+          <mat-label>Days Available</mat-label>
+          <mat-select multiple [(ngModel)]="selectedDays" name="days" (selectionChange)="updateDaySelection($event)">
+            <mat-option *ngFor="let day of availability" [value]="day.value">
+              {{ day.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <div *ngFor="let day of availability">
+          <div *ngIf="day.selected" class="time-selectors">
+            <mat-form-field class="time-field">
+              <mat-label>Start Time for {{ day.name }}</mat-label>
+              <input matInput type="time" [(ngModel)]="day.startTime"  [name]="'startTime-' + i">
+            </mat-form-field>
+            <mat-form-field class="time-field">
+              <mat-label>End Time for {{ day.name }}</mat-label>
+              <input matInput type="time" [(ngModel)]="day.endTime" [name]="'endTime-' + i">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="experience">Experience:</label>
+        <input type="number" class="form-control" id="experience" name="experience" [(ngModel)]="profile.experience">
+      </div>
+      <div class="form-group">
+        <label for="education">Education:</label>
+        <input type="text" class="form-control" id="education" name="education" [(ngModel)]="profile.education">
+      </div>
+      <div class="form-group">
+        <label for="licenseCertifications">License/Certifications:</label>
+        <input type="text" class="form-control" id="licenseCertifications" name="licenseCertifications"
+          [(ngModel)]="profile.licenseCertifications">
+      </div>
+      <div class="form-group">
+        <label for="treatmentApproaches">Treatment Approaches:</label>
+        <input type="text" class="form-control" id="treatmentApproaches" name="treatmentApproaches"
+          [(ngModel)]="profile.treatmentApproaches">
+      </div>
+      <div class="form-group">
+        <label for="fees">Fees:</label>
+        <input type="text" class="form-control" id="fees" name="fees" [(ngModel)]="profile.fees">
+      </div>
+      <div class="form-group">
+        <label for="insuranceAccepted">Insurance Accepted:</label>
+        <input type="text" class="form-control" id="insuranceAccepted" name="insuranceAccepted"
+          [(ngModel)]="profile.insuranceAccepted">
+      </div>
+      <div class="form-group">
+        <label for="additionalServices">Additional Services:</label>
+        <input type="text" class="form-control" id="additionalServices" name="additionalServices"
+          [(ngModel)]="profile.additionalServices">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="profileForm?.invalid">Update Profile</button>
+  </form>
+</div>

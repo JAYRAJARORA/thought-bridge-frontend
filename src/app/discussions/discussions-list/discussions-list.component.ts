@@ -12,6 +12,7 @@ import { DiscussionAddComponent } from '../discussion-add/discussion-add.compone
 })
 export class DiscussionsListComponent implements OnInit {
   discussions: Discussion[] = [];
+  isLoading = false;
   @Input("discussionType") discussionType: string = 'articles';
   
   constructor(public dialog: MatDialog, private discussionService: DiscussionService, private messageService: MessageService) { }
@@ -35,8 +36,13 @@ export class DiscussionsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.discussionService.discussionsChanged.subscribe((discussions) => {
       this.discussions = discussions;
+      console.log('--------------');
+      
+      console.log(this.discussions);
+      this.isLoading = false;
     })
   }
 }

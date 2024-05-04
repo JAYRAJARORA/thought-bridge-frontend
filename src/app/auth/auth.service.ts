@@ -1,14 +1,15 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { User } from "../shared/models/user.model";
 import { environment } from "../../environments/environment";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, catchError } from "rxjs";
 import { Router } from "@angular/router";
 import { LoginResponse } from "../shared/models/login.response";
+import { Therapist } from "../shared/models/therapist.model";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    userLoggedIn = new BehaviorSubject<{username: string, authenticated: boolean, type: string}>(null);
+    userLoggedIn = new BehaviorSubject<{username: string, userId: string, authenticated: boolean, type: string}>(null);
     private tokenExpirationTimer: any;
     private baseUrl: string;
     
@@ -18,10 +19,12 @@ export class AuthService {
     }
 
     register(user: User, resource: string) {
-        return this.http.post(`${this.baseUrl}/${resource}`, user, {
-            observe: 'response',
-            responseType: 'text'
-        });
+        if (resource == "users") {
+            return this.http.post<User>(`${this.baseUrl}/users`, user, {
+            });
+        } else if (resource == "therapists") {
+            return this.http.post<Therapist>(`${this.baseUrl}/therapists`, user);
+        }
     }
 
     autoLogin() {
@@ -34,7 +37,7 @@ export class AuthService {
     }
     
     login(user: User, type: string) {
-        return this.http.post<LoginResponse>(`${this.baseUrl}/login?type=${type}`, user);
+        return this.http.post<LoginResponse>(`${this.baseUrl}/login?role=${type}`, user);
     }
 
     logout() {

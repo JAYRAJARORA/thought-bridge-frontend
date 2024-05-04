@@ -1,0 +1,19 @@
+
+
+  .mat-icon {
+    color: #757575;
+  }
+
+
+  .address-form .flex-row {
+    display: flex;
+    flex-wrap: wrap; /* Allows fields to wrap onto the next line on smaller screens */
+    align-items: center; /* Aligns items vertically */
+    justify-content: space-between; /* Distributes space between fields */
+    gap: 10px; /* Provides a gap between fields */
+  }
+  
+  .mat-form-field {
+    flex-grow: 1; /* Allows fields to expand and fill the available space */
+  }
+  

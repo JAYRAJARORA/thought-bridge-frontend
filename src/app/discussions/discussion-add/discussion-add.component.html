@@ -1,7 +1,7 @@
 <!-- discussion-create-modal.component.html -->
 <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Create New Discussion</h5>
+      <h5 class="modal-title">Create New {{discussion.type == 'issues' ? 'Issue': 'Article'}}</h5>
     </div>
     <form (ngSubmit)="onSubmit()">
       <div class="modal-body">
@@ -22,7 +22,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-        <button type="submit" class="btn btn-primary">Create Discussion</button>
+        <button type="submit" class="btn btn-primary">Create</button>
       </div>
     </form>
   </div>

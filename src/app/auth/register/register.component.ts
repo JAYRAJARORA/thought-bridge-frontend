@@ -14,6 +14,9 @@ import { Category } from '../../shared/models/category.model';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  formattedPhoneNumber = '';
+  rawPhoneNumber = '';
+
   userType: string = 'user';
   user: User = { username: '', password: '', email: '' };
   therapist: Therapist = { 
@@ -24,12 +27,7 @@ export class RegisterComponent {
     specialization: '', 
     categories: [], 
     qualifications: '',
-    phoneNumber: null,
-    address: '',
-    state: '',
-    city: '',
-    country: '',
-    postalCode: null,
+    address: null
   };
 
   categories: Category[];
@@ -61,13 +59,18 @@ export class RegisterComponent {
     this.user.username = form.value.username;
     this.user.email = form.value.email;
     this.user.password = form.value.password;
-
+    
+    
+    
     if (this.userType === 'user') {
       this.register(this.user, 'users');
 
     } else if (this.userType === 'therapist') {
-      this.therapist.phoneNumber = form.value.phoneNumber;
-      this.therapist.address = form.value.address;
+      console.log("Logging in therapist");
+      
+      console.log(this.therapist?.address);
+      this.therapist.phoneNumber =  parseInt(this.rawPhoneNumber),
+      // this.therapist.address = form.value.address;
       this.therapist.name = form.value.name;
       this.therapist.specialization = form.value.specialization;
       this.therapist.qualifications = form.value.qualifications;
@@ -84,43 +87,13 @@ export class RegisterComponent {
     form.reset();
   }
 
-  onPlaceSelect(place: any) {
-    let addressComponents = place.address_components;
-    console.log(addressComponents);
-    
-    if (!addressComponents) return;
-
-    const streetAddress = this.getAddressComponentValue(addressComponents, 'street_number') + ' ' +
-      this.getAddressComponentValue(addressComponents, 'route');
-    const city = this.getAddressComponentValue(addressComponents, 'locality');
-    const postalCode = this.getAddressComponentValue(addressComponents, 'postal_code');
-    const state = this.getAddressComponentValue(addressComponents, 'administrative_area_level_1');
-    const country = this.getAddressComponentValue(addressComponents, 'country');
-
-    console.log("values populated");
-    
-    console.log(streetAddress);
-    
-    this.therapist.address = streetAddress;
-    this.therapist.city = city;
-    this.therapist.postalCode = +postalCode;
-    this.therapist.state = state;
-    this.therapist.country = country;
-      
-  }
-
-  private getAddressComponentValue(components: any[], type: string): string {
-    const component = components.find(comp => comp.types.includes(type));
-    return component ? component.long_name : '';
-  }
-
   
   register(user, url) {
     this.authService.register(user, url).subscribe({
       next: (response) => {
-        console.log('Signup successful!', response);
-        this.openSnackBar(response.body, 'Close');
-        let userData = {username: this.user.username, authenticated: true, type: this.userType};
+        this.openSnackBar("User Sucessfully Created", 'Close');
+        let userData = {username: response.username, authenticated: true, type: this.userType, userId: response.id};
+        console.log(userData);
           // right now logged in user are handled by boolean value - TODO - handle using Proper jwt token
           this.authService.userLoggedIn.next(userData);
           this.router.navigate(['/']);
@@ -128,7 +101,6 @@ export class RegisterComponent {
           this.authService.autoLogout(1000000);
       },
       error: (errorResponse) => {
-        console.error('Signup failed!', errorResponse);
         if(errorResponse.status == '409') {
           this.openSnackBar(errorResponse.error, 'Close');
         } else {
@@ -155,5 +127,23 @@ export class RegisterComponent {
   
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  updateUserType(index: number) {
+    this.userType = index === 1 ? 'therapist' : 'user';
+  }
+
+  formatPhoneNumber(input: string): void {
+    let numbers = input.replace(/\D/g, '');
+    let char = {0: '(', 3: ')-', 6: '-'};
+    this.formattedPhoneNumber = '';
+
+    for (let i = 0; i < numbers.length; i++) {
+      if (i > 9) break; // Ensure no more than 10 digits are allowed
+      this.formattedPhoneNumber += (char[i] || '') + numbers[i];
+    }
+
+    // Keep the raw number updated without formatting
+    this.rawPhoneNumber = numbers;
   }
 }

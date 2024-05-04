@@ -1,0 +1,28 @@
+.form-wrapper {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding around the form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: 30px; /* Margin at the top to separate from any elements above */
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/assets/ThoughtBridge.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+  
+  .mat-tab-labels {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .mat-tab-body-content {
+    overflow-y: hidden !important;
+  }
+  

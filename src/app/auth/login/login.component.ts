@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   userType: string = 'user';
-  user: User = {username: ''  , password: '', email: ''};
+  user: User = {username: ''  , password: '', email: '', licenseNumber: ''};
 
   constructor(private authService: AuthService, private snackBar: MatSnackBar, private router: Router) { }
 
@@ -22,28 +22,41 @@ export class LoginComponent {
   }
 
   login() {
+    console.log("test");
+    
+    console.log(this.userType);
+    
     this.authService.login(this.user, this.userType).subscribe({
       next: (response) => {
         console.log(response);
         
         if (response) {
           this.openSnackBar("User Logged In", 'Close');
-          let userData = {username: response.username, type: response.type, authenticated: true};
+          let userData = {username: response.username, type: response.role, authenticated: true, userId: response.userId};
+          console.log(userData);
+          
           // right now logged in user are handled by boolean value - TODO - handle using Proper jwt token
           this.authService.userLoggedIn.next(userData);
           this.router.navigate(['/']);
           localStorage.setItem('userData', JSON.stringify(userData));
           //this.authService.autoLogout(1000000);
         } else {
-          
-          this.openSnackBar("Invalid Credentials", "Try Again");
+          this.openSnackBar("Something went wrong", "Try Again");
         }
       },
       error: (e) => {
         // Handle login error
-        this.openSnackBar("Login failed: ", "Close");
+        if(e.status === 401) {
+        this.openSnackBar("Invalid Credentials", "Try Again");
+        }
         console.log(e);
       }
     });
+
+    
   }
+  updateUserType(index: number) {
+    this.userType = index === 1 ? 'therapist' : 'user';
+  }
+
 }

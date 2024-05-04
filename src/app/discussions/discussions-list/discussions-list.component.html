@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <button mat-raised-button class="btn btn-primary" (click)="openCreateDiscussionModal()">
+    <button mat-raised-button class="btn btn-primary" style="cursor: pointer; color: #ffffff; background-color: #3f51b5; border-radius: 4px; padding: 8px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" (click)="openCreateDiscussionModal()">
       Create New {{ discussionType == 'articles' ? 'Article':  'Issue'}} 
     </button>
   </div>
@@ -8,7 +8,16 @@
 <hr>
 <div class="row">
   <div class="col-md-12">
-    <app-discussion-item *ngFor="let discussion of discussions" [discussion]="discussion"
-    [index]="discussion.id"></app-discussion-item>
+    <div *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!isLoading">
+      <app-discussion-item *ngFor="let discussion of discussions" [discussion]="discussion"
+      [index]="discussion.id"></app-discussion-item>
+      <div *ngIf="!discussions || discussions.length == 0">
+        <p>Please create an {{ discussionType == 'articles' ? 'Article':  'Issue'}} </p>
+      </div>
+    </div>
+
   </div>
 </div>

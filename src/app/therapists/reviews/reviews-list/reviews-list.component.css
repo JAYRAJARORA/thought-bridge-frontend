@@ -1,0 +1,70 @@
+.reviews-container {
+    margin: 1rem 0;
+  }
+  
+  .review-panel {
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0; /* Optional: adds a subtle border around each panel */
+  }
+  
+  .review-author {
+    font-weight: 500;
+  }
+  
+  .star-rating {
+    color: gold;
+    font-size: 20px; /* Adjust the size of the stars */
+  }
+  
+  .review-rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .review-details {
+    margin-top: 10px;
+  }
+  
+  .review-date {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between date and content */
+    font-size: 14px;
+  }
+  
+  .review-content {
+    white-space: pre-wrap; /* Preserve line breaks and spaces in the review content */
+    font-size: 16px;
+  }
+  
+  .no-reviews-message {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+  }
+  
+
+
+  .reviews-container {
+    margin: 1rem 0;
+  }
+  
+  .review-form {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .review-input,
+  .review-rating {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    display: block;
+    margin-top: 10px;
+  }

@@ -1,27 +1,58 @@
 <div class="container">
   <div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-      <ul class="nav nav-tabs mb-3">
-        <li class="nav-item" [ngClass]="{ 'active': userType === 'user' }">
-          <a class="nav-link" (click)="userType = 'user'" style="cursor: pointer;">Login as User</a>
-        </li>
-        <li class="nav-item" [ngClass]="{ 'active': userType === 'therapist' }">
-          <a class="nav-link"  (click)="userType = 'therapist'" style="cursor: pointer;">Login as Therapist</a>
-        </li>
-      </ul>
-      <form class="mt-4" #loginForm="ngForm" (ngSubmit)="login()">
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" id="username" name="username" class="form-control" [(ngModel)]="user.username" required>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" id="password" name="password" class="form-control" [(ngModel)]="user.password" required>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>&nbsp;
-        New user? &nbsp;<a routerLink="/register" style="cursor: pointer;">Register</a>
-      </form>
+    <div class="col-md-12">
+      <div class="form-wrapper"> 
+      <mat-tab-group (selectedIndexChange)="updateUserType($event)">
+        <mat-tab label="Login as User" [ngClass]="{ 'active': userType === 'user' }">
+          <br>
+          <ng-template mat-tab-label>
+            <mat-icon>person</mat-icon>
+            <span>Login as User</span>
+          </ng-template>
+          <div mat-tab-body style="margin-top: auto;">
+            <form class="mt-4" #loginForm="ngForm" (ngSubmit)="login()">
+              <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" id="username" name="username" [(ngModel)]="user.username" required>
+              </mat-form-field>&nbsp;
+              <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" id="password" name="password" [(ngModel)]="user.password" required>
+              </mat-form-field>
+              <br>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>&nbsp;
+              <span>New user?</span>&nbsp;<a routerLink="/register">Register</a>
+            </form>
+          </div>
+        </mat-tab>
+        <mat-tab label="Login as Therapist" [ngClass]="{ 'active': userType === 'therapist' }">
+          <br>
+          <ng-template mat-tab-label>
+            <mat-icon>medical_services</mat-icon>
+            <span>Login as Therapist</span>
+          </ng-template>
+          <div mat-tab-body>
+            <form class="mt-4" #loginForm="ngForm" (ngSubmit)="login()">
+              <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" id="username" name="username" [(ngModel)]="user.username" required>
+              </mat-form-field>&nbsp;
+              <mat-form-field appearance="fill">
+                <mat-label>License Number</mat-label>
+                <input matInput type="text" id="licenseNumber" name="licenseNumber" [(ngModel)]="user.licenseNumber" required>
+              </mat-form-field>&nbsp;
+              <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" id="password" name="password" [(ngModel)]="user.password" required>
+              </mat-form-field>
+              <br>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>&nbsp;
+              <span>New user?</span>&nbsp;<a routerLink="/register">Register</a>
+            </form>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
     </div>
   </div>
 </div>

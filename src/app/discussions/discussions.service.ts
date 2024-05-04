@@ -4,7 +4,7 @@ import { Discussion } from "../shared/models/discussion.model";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { environment } from "../../environments/environment";
 import { Comment } from "../shared/models/comment.model";
-import { Therapist } from "../shared/models/therapist.model";
+import { Upvote } from "../shared/models/upvote.model";
 
 @Injectable({ providedIn: "root" })
 export class DiscussionService {
@@ -19,20 +19,16 @@ export class DiscussionService {
     this.baseUrl = environment.domain;
   }
 
-  getDiscussionsByCategory(categoryIds: string[]): Observable<Discussion[]> {
-    const categoryIdsString = categoryIds.join(',');
-    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions-by-category?categoryIds=${categoryIdsString}`);
-  }
-
-  getDiscussions(type: string): Observable<Discussion[]> {
-    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions?type=${type}`).pipe(tap((discussions: Discussion[]) => {
+  getDiscussions(type: string, userId?: string): Observable<Discussion[]> {
+    let param = userId ? '&userId=' + userId : '';
+    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions?type=${type}${param}`).pipe(tap((discussions: Discussion[]) => {
       this.discussions = discussions;
       this.discussionsChanged.emit(discussions);
     }));
   }
 
   getTrendingArticles(): Observable<Discussion[]> {
-    return this.http.get<Discussion[]>(`${this.baseUrl}/trending-articles`).pipe(tap((discussions: Discussion[]) => {
+    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions/trending`).pipe(tap((discussions: Discussion[]) => {
       this.discussions = discussions;
       this.discussionsChanged.emit(discussions);
     }));
@@ -46,7 +42,14 @@ export class DiscussionService {
     return this.http.post<Discussion>(`${this.baseUrl}/discussions/${id}/comments`, comment);
   }
 
+  getCommentsForDiscussion(id: string): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.baseUrl}/discussions/${id}/comments`);
+  }
+
   addDiscussion(discussion: Discussion): void {
+    if (!this.discussions) {
+        this.discussions = [];
+    }
     this.discussions.push(discussion);
     this.discussionsChanged.emit(this.discussions.slice());
   }
@@ -59,12 +62,11 @@ export class DiscussionService {
     );
   }
 
-
-  getTherapists() {
-    return this.http.get<Therapist[]>(`${this.baseUrl}/therapists`);
+  toggleUpvoteOnDiscussion(discussionId: string, userId: string) {
+    return this.http.post<Discussion>(`${this.baseUrl}/discussions/${discussionId}/toggle-vote?userId=${userId}`, {});
   }
 
-  toggleUpvoteOnDiscussion(discussionId: string, username: string) {
-    return this.http.post<Discussion>(`${this.baseUrl}/discussions/${discussionId}/toggle-upvote?username=${username}`, {});
+  checkIfUserHasUpvoted(discussionId: string, userId: string) {
+    return this.http.post<Upvote>(`${this.baseUrl}/discussions/${discussionId}/check-vote?userId=${userId}`, {});
   }
 }

@@ -9,8 +9,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from '@angular/material/button';
-
-
+import { MatSliderModule } from '@angular/material/slider';  
+import { MatDialogActions, MatDialogContent, MatDialogModule } from '@angular/material/dialog';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material/grid-list';
+import {MatListModule} from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatStep, MatStepperModule } from '@angular/material/stepper';
 import { AppComponent } from './app.component';
 import { DiscussionListTrendingComponent } from './discussions/discussion-list-trending/discussion-list-trending.component';
 import { HomeComponent } from './home/home.component';
@@ -35,7 +47,15 @@ import { CommentsComponent } from './discussions/discussion-detail/comments/comm
 import { AutocompleteAddressDirective } from './shared/directives/AutocompleteAddress.directive';
 import { TherapistsComponent } from './therapists/therapists.component';
 import { DiscussionByCategoryComponent } from './discussions/discussion-by-category/discussion-by-category.component';
-
+import { ProfileComponent } from './profile/profile.component';
+import { AddressFormComponent } from './address-form/address-form.component';
+import { TherapistDetailComponent } from './therapists/therapist-detail/therapist-detail.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReviewsListComponent } from './therapists/reviews/reviews-list/reviews-list.component';
+import { AboutComponent } from './about/about.component';
+import { UrgentHelpComponent } from './urgent-help/urgent-help.component';
+import '@angular/material';
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +79,13 @@ import { DiscussionByCategoryComponent } from './discussions/discussion-by-categ
     CommentsComponent,
     AutocompleteAddressDirective,
     TherapistsComponent,
-    DiscussionByCategoryComponent
+    DiscussionByCategoryComponent,
+    ProfileComponent,
+    AddressFormComponent,
+    TherapistDetailComponent,
+    ReviewsListComponent,
+    AboutComponent,
+    UrgentHelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,8 +97,26 @@ import { DiscussionByCategoryComponent } from './discussions/discussion-by-categ
     MatIconModule,
     MatSelectModule,
     MatInputModule,
+    MatSliderModule,
     MatFormFieldModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogModule,
+    GoogleMapsModule,
+    RatingModule.forRoot(),
+    MatTooltipModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatGridListModule,
+    MatListModule,
+    MatTabsModule,
+    MatStepperModule
+
   ],
   providers: [
     provideAnimationsAsync()

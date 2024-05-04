@@ -1,27 +1,25 @@
-<div class="row mt-4" *ngIf="discussions && discussions.length > 0">
-    <div class="col">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Content</th>
-              <th>Author</th>
-              <th>Category</th>
-              <th>Likes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let discussion of discussions">
-              <td><a style="cursor: pointer;text-decoration: none;color:inherit;font-weight: bold;" [routerLink]="['articles', discussion.id]">{{ discussion.title }}</a></td>
-              <td>{{ discussion.content }}</td>
-              <td>{{ discussion.author.username }}</td>
-              <td>{{ discussion.category.name }}</td>
-              <td>{{ discussion.upvotes }}</td>
-            </tr>
-          </tbody>
-        </table>
+<app-category></app-category>
+<div class="row mt-4" *ngIf="isLoading || discussions && discussions.length > 0">
+  <div class="col">
+    <mat-spinner *ngIf="isLoading" mode="indeterminate"></mat-spinner>
+    <div class="row" *ngIf="!isLoading">
+      <div class="col-md-6 mb-4" *ngFor="let discussion of discussions; let i = index">
+        <a [routerLink]="['articles', discussion.id]" style="text-decoration: none; color: inherit;">
+          <mat-card class="example-card">
+            <mat-card-content>
+              <div class="title">{{ discussion.title }}</div>
+              <div class="details">
+                <span class="category">{{ discussion.category.name }}</span>
+              </div>
+              <div class="content">{{ discussion.content }}</div>
+              <div class="bottom-content">
+                <div class="author"><mat-icon>account_circle</mat-icon>{{ discussion.author.username }}</div>
+                <div class="likes">{{ discussion.upvotes }} <mat-icon>thumb_up</mat-icon></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </a>
       </div>
     </div>
   </div>
-  
+</div>

@@ -1,0 +1,40 @@
+.navbar-default {
+    background-color: #e6f7e9; /* Light green background color */
+    border-color: #c8e6c9; /* Lighter green border color */
+}
+
+.navbar-default .navbar-brand {
+    color: #2e7d32; /* Dark green color for the brand */
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #333; /* Dark grey color for the links */
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    background-color: #c8e6c9; /* Lighter green background on hover/focus */
+}
+
+.navbar-default .navbar-nav .active > a,
+.navbar-default .navbar-nav .active > a:hover,
+.navbar-default .navbar-nav .active > a:focus {
+    background-color: #dcedc8; /* Light green background for active link */
+    color: #2e7d32; /* Dark green color for active link text */
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #333; /* Dark grey color for dropdown links */
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    background-color: #c8e6c9; /* Lighter green background for dropdown links on hover/focus */
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    background-color: #dcedc8; /* Light green background for active dropdown link */
+    color: #2e7d32; /* Dark green color for active dropdown link text */
+}

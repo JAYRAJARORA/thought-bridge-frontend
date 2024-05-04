@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DiscussionService } from './discussions.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-discussions',
@@ -9,7 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DiscussionsComponent {
   type: string;
-  constructor(private discussionService: DiscussionService, private route: ActivatedRoute) {
+  constructor(private discussionService: DiscussionService, 
+    private authService: AuthService, 
+    private route: ActivatedRoute) {
 
   }
 
@@ -19,7 +22,10 @@ export class DiscussionsComponent {
       if(this.type == 'articles') {
         this.discussionService.getDiscussions(type).subscribe();
       } else {
-        this.discussionService.getDiscussions(type).subscribe();
+        this.authService.userLoggedIn.subscribe((userData) => {
+          this.discussionService.getDiscussions(type, userData.userId).subscribe();
+        })
+        
       }
       this.type = type;
     });    

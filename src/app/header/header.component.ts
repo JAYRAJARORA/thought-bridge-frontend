@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public username: string = '';
   private userLoggedInSub: Subscription;
   public userType = 'user';
+  public userId = '';
   constructor(private authService: AuthService) {
 
   }
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isAuthenticated = userData?.authenticated;
       this.username = userData?.username;
       this.userType = userData?.type;
+      this.userId = userData?.userId;
     })
   }
   ngOnDestroy(): void {

@@ -1,25 +1,25 @@
-<div class="row mt-4" *ngIf="trendingDiscussions && trendingDiscussions.length > 0">
+<div class="row mt-4" *ngIf="isLoading || trendingDiscussions && trendingDiscussions.length > 0">
   <div class="col">
     <h3>Trending Articles</h3>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
-            <th>Likes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let discussion of trendingDiscussions">
-            <td>{{ discussion.title }}</td>
-            <td>{{ discussion.author.username }}</td>
-            <td>{{ discussion.category.name }} </td>
-            <td>{{ discussion.upvotes }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <mat-spinner *ngIf="isLoading" mode="indeterminate"></mat-spinner>
+    <div class="row" *ngIf="!isLoading">
+      <div class="col-md-6 mb-4" *ngFor="let discussion of trendingDiscussions; let i = index">
+        <a [routerLink]="['articles', discussion.id]" style="text-decoration: none; color: inherit;">
+          <mat-card class="example-card">
+            <mat-card-content>
+              <div class="title">{{ discussion.title }}</div>
+              <div class="details">
+                <span class="category">{{ discussion.category.name }}</span>
+              </div>
+              <div class="content">{{ discussion.content }}</div>
+              <div class="bottom-content">
+                <div class="author"><mat-icon>account_circle</mat-icon>{{ discussion.author.username }}</div>
+                <div class="likes">{{ discussion.upvotes }} <mat-icon>thumb_up</mat-icon></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </div>
     </div>
   </div>
 </div>

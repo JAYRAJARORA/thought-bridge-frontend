@@ -5,4 +5,5 @@ export class Comment {
     content: string;
     author: User;
     dateCreated: Date;
+    discussionId: string;
 }

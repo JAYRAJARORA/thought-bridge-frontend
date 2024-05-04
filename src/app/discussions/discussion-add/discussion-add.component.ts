@@ -20,7 +20,6 @@ export class DiscussionAddComponent implements OnInit {
     author: { username: '' },
     title: '',
     content: '',
-    comments: [],
     upvotes: 0,
     type: ''
   };

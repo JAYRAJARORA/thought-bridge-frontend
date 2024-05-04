@@ -10,16 +10,16 @@ import { Discussion } from '../../shared/models/discussion.model';
 })
 export class DiscussionDetailComponent implements OnInit {
   hasUserUpvoted = false;
-  username = '';
+  userId = '';
   discussion: Discussion = {
     id: '',
     title: '',
     content: '',
     author: null,
-    comments: [],
     upvotes: 0,
     category: null,
-    type: ''
+    type: '',
+    comments: 0
   };
 
   constructor(private route: ActivatedRoute, 
@@ -30,23 +30,29 @@ export class DiscussionDetailComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.discussionService.findDiscussionById(params['id']).subscribe((discussion: Discussion) => {
         this.discussion = discussion;
-        console.log("Here");
         console.log(this.discussion);
         
         
         const userDataObj = JSON.parse(localStorage.getItem('userData'));
-        this.username = userDataObj.username;
-        this.hasUserUpvoted = this.discussion.upvoteDetail?.filter(userData => userData.user.username == this.username).length > 0;
+        this.userId = userDataObj.userId;
+        this.discussionService.checkIfUserHasUpvoted(this.discussion.id, this.userId).subscribe((upvote) => {
+          if(upvote) {
+            this.hasUserUpvoted = true;
+          } else {
+            this.hasUserUpvoted = false;
+          }
+        });
       });
     });
-    this.discussionService.commentAdded.subscribe(() => this.discussion.comments.length++);
+    // this.discussionService.commentAdded.subscribe(() => this.discussion.comments.length++);
 
   }
 
   toggleUpvoteDiscussion() {
-    this.discussionService.toggleUpvoteOnDiscussion(this.discussion.id, this.username).subscribe((discussion) => {
+    this.discussionService.toggleUpvoteOnDiscussion(this.discussion.id, this.userId).subscribe((discussion) => {
       this.discussion = discussion;
-      this.hasUserUpvoted = this.discussion.upvoteDetail?.filter(userData => userData.user.username == this.username).length > 0;
+      this.hasUserUpvoted = !this.hasUserUpvoted;
+      // this.hasUserUpvoted = this.discussion.upvoteDetail?.filter(userData => userData.user.username == this.username)?.length > 0;
     });
   }
 }

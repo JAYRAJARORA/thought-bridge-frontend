@@ -11,6 +11,7 @@ import { CategoryService } from '../../shared/category.service';
 export class DiscussionByCategoryComponent {
   discussions: Discussion[] = [];
   categoryIds: string[] = [];
+  isLoading = false;
 
   constructor(private discussionService: DiscussionService, private categoryService: CategoryService) { }
 
@@ -21,6 +22,7 @@ export class DiscussionByCategoryComponent {
       if(this.categoryIds.length === 0){
         this.discussions = [];
       } else {
+        this.isLoading = true;
         this.getDiscussionsByCategory();
       }
       
@@ -28,9 +30,17 @@ export class DiscussionByCategoryComponent {
   }
 
   getDiscussionsByCategory() {
-    this.discussionService.getDiscussionsByCategory(this.categoryIds)
+    this.categoryService.getDiscussionsByCategory(this.categoryIds)
       .subscribe(discussions => {        
         this.discussions = discussions;
+        this.isLoading = false;
+        this.discussions.forEach(discussion => {
+          if (discussion.content.length > 95) {
+            discussion.content = discussion.content.substring(0, 95) + ' ...';
+          } else {
+            discussion.content = discussion.content;
+          }
+        });
       });
   }
 }

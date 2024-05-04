@@ -1,17 +1,19 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" >
     <div class="container-fluid">
         <div class="navbar-header">
-            <a routerLink="/" style="cursor: pointer;" class="navbar-brand">Thought Bridge</a>
+            <a routerLink="/" style="cursor: pointer;" class="navbar-brand">ThoughtBridge</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/issues">Issues</a></li>
+                <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/issues">Discussion Forum</a></li>
                 <li *ngIf="isAuthenticated" routerLinkActive="active"><a routerLink="/articles">Articles</a></li>
                 <li *ngIf="isAuthenticated  && userType == 'user'" routerLinkActive="active"><a routerLink="/therapists">Find a Therapist</a></li>
-                <li *ngIf="!isAuthenticated" routerLinkActive="active"><a routerLink="/resources">Need Help?</a></li>
+                <li routerLinkActive="active"><a routerLink="/urgent-help">Need Help</a></li>
+                <li routerLinkActive="active"><a routerLink="/resources">Additional Resources</a></li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                
+                <li routerLinkActive="active"><a routerLink="/about">About Us</a></li>
                 <li routerLinkActive="active" *ngIf="!isAuthenticated">
                     <a style="cursor: pointer;" routerLink="/login">Login</a>
                 </li>
@@ -23,8 +25,8 @@
                     <a style="cursor: pointer;" class="dropdown-toggle" role="button">{{ username }}<span
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a style="cursor: pointer;">View Profile</a></li>
-                        <li><a style="cursor: pointer;">Update Preferences</a></li>
+                        <li><a [routerLink]="['users', userId]" [queryParams]="{type: userType}" style="cursor: pointer;">View Profile</a></li>
+                        <!-- <li><a style="cursor: pointer;">Update Preferences</a></li> -->
                         <li *ngIf="isAuthenticated"><a style="cursor: pointer;" (click)="onLogout()">Logout</a></li>
                     </ul>
                 </li>

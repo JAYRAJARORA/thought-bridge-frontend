@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, map, tap } from "rxjs";
 import { Category } from "./models/category.model";
 import { environment } from "../../environments/environment";
+import { Discussion } from "./models/discussion.model";
 
 @Injectable({ providedIn: "root" })
 export class CategoryService {
@@ -20,5 +21,9 @@ export class CategoryService {
         }));
     }
 
+    getDiscussionsByCategory(categoryIds: string[]): Observable<Discussion[]> {
+        const categoryIdsString = categoryIds.join(',');
+        return this.http.get<Discussion[]>(`${this.baseUrl}/categories/articles?categoryIds=${categoryIdsString}`);
+      }
     
 }
