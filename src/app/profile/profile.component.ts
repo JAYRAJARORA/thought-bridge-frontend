@@ -24,16 +24,17 @@ export class ProfileComponent implements OnInit{
   rawPhoneNumber: string;
   categories: Category[];
   selectedCategories: Category[];
+  selectedDays;
 
   availability: Availability[] = [
-    { name: 'Monday', value: 'monday', selected: false, startTime: '', endTime: '' },
-    { name: 'Tuesday', value: 'tuesday', selected: false, startTime: '', endTime: '' },
-    { name: 'Wednesday', value: 'wednesday', selected: false, startTime: '', endTime: '' },
-    { name: 'Thursday', value: 'thursday', selected: false, startTime: '', endTime: '' },
-    { name: 'Friday', value: 'friday', selected: false, startTime: '', endTime: '' },
-    { name: 'Saturday', value: 'saturday', selected: false, startTime: '', endTime: '' },
-    { name: 'Sunday', value: 'sunday', selected: false, startTime: '', endTime: '' },
-    { name: 'Weekdays', value: 'weekday', selected: false, startTime: '', endTime: '' },
+    { name: 'Monday', value: 'monday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Tuesday', value: 'tuesday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Wednesday', value: 'wednesday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Thursday', value: 'thursday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Friday', value: 'friday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Saturday', value: 'saturday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Sunday', value: 'sunday', selected: false, startTime: '09:00', endTime: '12:00' },
+    { name: 'Weekdays', value: 'weekday', selected: false, startTime: '09:00', endTime: '12:00' },
   ];
   constructor(private route: ActivatedRoute,
     private profileService: ProfileService,
@@ -59,6 +60,17 @@ export class ProfileComponent implements OnInit{
             this.oldUserName = profile.username;
             this.formatPhoneNumber(profile.phoneNumber.toString());
             this.selectedCategories = profile.categories;
+            if (profile.availability) {
+              this.selectedDays = profile.availability.map(day => day.name); // Initialize selectedDays
+              this.availability = this.availability.map(day => {
+                const profileDay = profile.availability.find(pDay => pDay.name === day.name);
+                // console.log(profileDay);
+                
+                return profileDay ? { ...day, selected: true, startTime: profileDay.startTimeAsLocalTime, endTime: profileDay.endTimeAsLocalTime } : day;
+              });
+              console.log(this.availability);
+              
+            }  
           });
         });
       });
@@ -88,7 +100,7 @@ export class ProfileComponent implements OnInit{
   updateDaySelection(event: any): void {
     const selectedValues = event.value;  // Get the current values from the event
     this.availability.forEach(day => {
-      day.selected = selectedValues.includes(day.value);  // Update selected status based on the dropdown
+      day.selected = selectedValues.includes(day.name);  // Update selected status based on the dropdown
     });
   }
 
@@ -107,9 +119,6 @@ export class ProfileComponent implements OnInit{
     this.profile.phoneNumber =  parseInt(this.rawPhoneNumber);
     this.profile.categories = this.selectedCategories;
     this.profileService.updateProfile(this.profile.id, this.profile, this.userType).subscribe({
-
-
-      
       next: (response) => {
         this.openSnackBar("Profile Sucessfully Updated", 'Close');
         if(this.oldUserName !== this.profile.username) {

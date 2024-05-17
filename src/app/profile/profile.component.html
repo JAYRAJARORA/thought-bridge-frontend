@@ -90,13 +90,13 @@
         <mat-form-field class="full-width">
           <mat-label>Days Available</mat-label>
           <mat-select multiple [(ngModel)]="selectedDays" name="days" (selectionChange)="updateDaySelection($event)">
-            <mat-option *ngFor="let day of availability" [value]="day.value">
+            <mat-option *ngFor="let day of availability" [value]="day.name">
               {{ day.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       
-        <div *ngFor="let day of availability">
+        <div *ngFor="let day of availability; let i = index">
           <div *ngIf="day.selected" class="time-selectors">
             <mat-form-field class="time-field">
               <mat-label>Start Time for {{ day.name }}</mat-label>
