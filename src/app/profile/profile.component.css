@@ -1,3 +1,15 @@
 .mat-mdc-input-element::-webkit-calendar-picker-indicator {
     display: block;
   }
+
+
+  /* Full width and height for text area field */
+.full-width-textarea {
+  width: 100%;  /* Full width of its container */
+}
+
+.mat-textarea-autosize {
+  width: 100%;  /* Full width of the mat-form-field */
+  min-height: 100px;  /* Minimum height */
+  max-height: 300px;  /* Maximum height before scrolling */
+}

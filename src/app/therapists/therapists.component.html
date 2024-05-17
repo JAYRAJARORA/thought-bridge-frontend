@@ -81,7 +81,7 @@
               <!-- <td>{{ therapist.avgRating === 0 ? 'N/A': therapist.avgRating }}</td> -->
               <td><rating style="color:gold" [(ngModel)]="therapist.avgRating" matTooltip="{{ therapist.avgRating == 0 ? 'Unrated' : therapist.avgRating  + ' out of 5 stars'   }}" [max]="max" [readonly]="true"></rating></td>
               <td colspan="2">
-                <button mat-button (click)="viewDetails(therapist.id)">View Details</button>
+                <button mat-button (click)="viewDetails(therapist.id)">View</button>
               </td>
             </tr>
           

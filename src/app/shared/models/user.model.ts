@@ -1,6 +1,6 @@
 import { Preferences } from "./preferences.model";
 
-export interface User {
+export class User {
     id ?: string;
     username: string;
     email?: string;

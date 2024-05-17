@@ -37,10 +37,11 @@
             <span>Register as Therapist</span>
           </ng-template>
           <div mat-tab-body>
-            <form class="mt-4" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form class="mt-4" #therapistForm="ngForm" (ngSubmit)="onSubmit(therapistForm)">
               <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
-                <input matInput type="text" id="username" name="username" [(ngModel)]="therapist.username" required>
+                <input matInput type="text" id="username" name="username" #usernameInput="ngModel" [(ngModel)]="therapist.username" required>
+
               </mat-form-field>&nbsp;
               <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
@@ -55,11 +56,11 @@
               &nbsp;
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" id="email" name="email" [(ngModel)]="therapist.email" required email>
+                <input matInput type="email" id="email" name="email" [(ngModel)]="therapist.email" email required>
               </mat-form-field>&nbsp;
               <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" id="password" name="password" [(ngModel)]="therapist.password" required minlength="6">
+                <input matInput type="password" id="password" name="password" [(ngModel)]="therapist.password" minlength="6" required>
               </mat-form-field>&nbsp;
               <app-address-form [(address)]="therapist.address"></app-address-form>
               <mat-form-field appearance="fill">
@@ -81,7 +82,7 @@
                 </mat-select>
               </mat-form-field>&nbsp;
               <br>
-              <button mat-raised-button color="primary" type="submit" [disabled]="!authForm.valid">Register</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!therapistForm.valid">Register</button>
               &nbsp; <span>Already have an account?</span> &nbsp;<a routerLink="/login">Login</a>
             </form>
           </div>

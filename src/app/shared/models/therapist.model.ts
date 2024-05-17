@@ -4,7 +4,7 @@ import { Category } from "./category.model";
 import { Language } from "./language.model";
 import { User } from "./user.model";
 
-export interface Therapist extends User {
+export class Therapist extends User {
     name?: string;
     phoneNumber?: number;
     address?: Address;

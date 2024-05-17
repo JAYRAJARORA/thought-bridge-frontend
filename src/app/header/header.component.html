@@ -13,14 +13,13 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li routerLinkActive="active"><a routerLink="/about">About Us</a></li>
+                <li routerLinkActive="active"><a routerLink="/about">About</a></li>
                 <li routerLinkActive="active" *ngIf="!isAuthenticated">
                     <a style="cursor: pointer;" routerLink="/login">Login</a>
                 </li>
                 <li routerLinkActive="active" *ngIf="!isAuthenticated">
                     <a style="cursor: pointer;" routerLink="/register">Register</a>
                 </li>
-                <li *ngIf="!isAuthenticated" routerLinkActive="active"><a style="cursor: pointer;" routerLink="/contact">Contact Us</a></li>
                 <li class="dropdown" appDropdown *ngIf="isAuthenticated">
                     <a style="cursor: pointer;" class="dropdown-toggle" role="button">{{ username }}<span
                             class="caret"></span></a>

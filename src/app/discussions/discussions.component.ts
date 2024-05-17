@@ -23,15 +23,16 @@ export class DiscussionsComponent {
         this.discussionService.getDiscussions(type).subscribe();
       } else {
         this.authService.userLoggedIn.subscribe((userData) => {
-          this.discussionService.getDiscussions(type, userData.userId).subscribe();
+          if(userData.type == 'therapist') {
+            this.discussionService.getDiscussions(type).subscribe();
+          } else {
+            this.discussionService.getDiscussions(type, userData.userId).subscribe();
+          }
+          
         })
         
       }
       this.type = type;
-    });    
-    
-    
-    
+    });
   }
-  
 }

@@ -7,6 +7,8 @@ import { AuthService } from '../auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Language } from '../shared/models/language.model';
 import { Availability } from '../shared/models/availability.model';
+import { Category } from '../shared/models/category.model';
+import { CategoryService } from '../shared/category.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +20,11 @@ export class ProfileComponent implements OnInit{
   userType: string;
   oldUserName: string;
   languages: Language[];
+  formattedPhoneNumber: string;
+  rawPhoneNumber: string;
+  categories: Category[];
+  selectedCategories: Category[];
+
   availability: Availability[] = [
     { name: 'Monday', value: 'monday', selected: false, startTime: '', endTime: '' },
     { name: 'Tuesday', value: 'tuesday', selected: false, startTime: '', endTime: '' },
@@ -31,12 +38,17 @@ export class ProfileComponent implements OnInit{
   constructor(private route: ActivatedRoute,
     private profileService: ProfileService,
     private authService: AuthService,
-    private snackBar: MatSnackBar, ) {}
+    private snackBar: MatSnackBar,
+    private categoryService: CategoryService) {}
 
   ngOnInit() : void {
+    
     this.route.params.subscribe((params) => {
       let id = params['id'];
       
+      this.categoryService.getAllCategories().subscribe(categories => {
+        this.categories = categories;
+      });
       this.route.queryParams.subscribe((queryParams) => {
         this.userType = queryParams['type'];
 
@@ -45,12 +57,29 @@ export class ProfileComponent implements OnInit{
           this.profileService.getProfile(id, this.userType).subscribe((profile) => {
             this.profile = profile;
             this.oldUserName = profile.username;
+            this.formatPhoneNumber(profile.phoneNumber.toString());
+            this.selectedCategories = profile.categories;
           });
         });
       });
     });  
   
   }
+
+  onSelectionChange(event: any) {
+    const selectedOptions = event.target.options;
+    this.selectedCategories = [];
+    for (let i = 0; i < selectedOptions.length; i++) {
+      if (selectedOptions[i].selected) {
+        const categoryId = selectedOptions[i].value;
+        const selectedCategory = this.categories.find(category => category.id === categoryId);
+        if (selectedCategory) {
+          this.selectedCategories.push(selectedCategory);
+        }
+      }
+    }
+  }
+
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 5000, // Adjust the duration as needed
@@ -75,8 +104,8 @@ export class ProfileComponent implements OnInit{
     console.log('Submitting availability:', this.availability.filter(day => day.selected));
     this.profile.availability = [];
     this.profile.availability.push(...this.availability.filter(day => day.selected));
-    
-
+    this.profile.phoneNumber =  parseInt(this.rawPhoneNumber);
+    this.profile.categories = this.selectedCategories;
     this.profileService.updateProfile(this.profile.id, this.profile, this.userType).subscribe({
 
 
@@ -105,6 +134,20 @@ export class ProfileComponent implements OnInit{
   // Function to compare two language objects for equality
   compareLanguage(l1: any, l2: any): boolean {
     return l1 && l2 ? l1.id === l2.id : l1 === l2;
+  }
+
+  formatPhoneNumber(input: string): void {
+    let numbers = input.replace(/\D/g, '');
+    let char = {0: '(', 3: ')-', 6: '-'};
+    this.formattedPhoneNumber = '';
+
+    for (let i = 0; i < numbers.length; i++) {
+      if (i > 9) break; // Ensure no more than 10 digits are allowed
+      this.formattedPhoneNumber += (char[i] || '') + numbers[i];
+    }
+
+    // Keep the raw number updated without formatting
+    this.rawPhoneNumber = numbers;
   }
 
 }
